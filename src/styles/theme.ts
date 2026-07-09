@@ -56,16 +56,78 @@ const theme = extendTheme({
       800: '#808030',
       900: '#666610',
     },
+    coral: {
+      50: '#FFF5F5',
+      100: '#FFE8E8',
+      200: '#FFD1D1',
+      300: '#FFAAAA',
+      400: '#FF7878',
+      500: '#FF5050',
+      600: '#E83A3A',
+      700: '#C42828',
+      800: '#9E1E1E',
+      900: '#821818',
+    },
+    palm: {
+      50: '#F0F7F4',
+      100: '#DCEDE5',
+      200: '#B9DBC9',
+      300: '#96C9AD',
+      400: '#73B791',
+      500: '#50A575',
+      600: '#40845D',
+      700: '#306346',
+      800: '#20422E',
+      900: '#102117',
+    },
   },
   fonts: {
-    heading: "'Poppins', sans-serif",
+    // Playfair Display: Elegant serif for main headings, titles, testimonials
+    heading: "'Playfair Display', serif",
+    // Poppins: Modern geometric sans for branding, navigation, CTAs, subheadings
     body: "'Inter', sans-serif",
+    // Dancing Script: Handwritten for accents, quotes, signatures
+    mono: "'JetBrains Mono', monospace",
+  },
+  fontSizes: {
+    xs: '0.75rem',
+    sm: '0.875rem',
+    md: '1rem',
+    lg: '1.125rem',
+    xl: '1.25rem',
+    '2xl': '1.5rem',
+    '3xl': '1.875rem',
+    '4xl': '2.25rem',
+    '5xl': '3rem',
+    '6xl': '3.75rem',
+    '7xl': '4.5rem',
+    '8xl': '6rem',
   },
   styles: {
     global: {
       body: {
         bg: 'sand.100',
         color: 'gray.800',
+        fontFamily: 'body',
+        lineHeight: '1.7',
+      },
+      '::selection': {
+        bg: 'brand.200',
+        color: 'brand.900',
+      },
+      // Custom scrollbar
+      '::-webkit-scrollbar': {
+        width: '10px',
+      },
+      '::-webkit-scrollbar-track': {
+        bg: 'sand.200',
+      },
+      '::-webkit-scrollbar-thumb': {
+        bg: 'brand.300',
+        borderRadius: 'full',
+        _hover: {
+          bg: 'brand.400',
+        },
       },
     },
   },
@@ -73,36 +135,65 @@ const theme = extendTheme({
     Button: {
       defaultProps: {
         colorScheme: 'brand',
-        borderRadius: 'xl',
+        borderRadius: 'full',
       },
       baseStyle: {
         fontWeight: '600',
-        borderRadius: 'xl',
-        transition: 'all 0.2s ease-in-out',
+        borderRadius: 'full',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         _hover: {
-          transform: 'translateY(-2px)',
-          boxShadow: 'lg',
+          transform: 'translateY(-3px)',
+          boxShadow: 'xl',
         },
         _active: {
-          transform: 'translateY(0)',
+          transform: 'translateY(-1px)',
+        },
+      },
+      variants: {
+        solid: {
+          bg: 'brand.500',
+          color: 'white',
+          _hover: {
+            bg: 'brand.600',
+          },
+        },
+        outline: {
+          border: '2px solid',
+          borderColor: 'brand.500',
+          color: 'brand.500',
+          _hover: {
+            bg: 'brand.500',
+            color: 'white',
+          },
+        },
+        ghost: {
+          _hover: {
+            bg: 'brand.50',
+          },
         },
       },
     },
     Card: {
       baseStyle: {
         container: {
-          borderRadius: '2xl',
-          boxShadow: 'md',
+          borderRadius: '3xl',
+          boxShadow: 'lg',
           overflow: 'hidden',
+          transition: 'all 0.3s ease',
+          _hover: {
+            boxShadow: '2xl',
+            transform: 'translateY(-4px)',
+          },
         },
       },
     },
     Badge: {
       baseStyle: {
         borderRadius: 'full',
-        px: 3,
-        py: 1,
+        px: 4,
+        py: 1.5,
         fontWeight: '600',
+        textTransform: 'capitalize',
       },
     },
     Input: {
@@ -111,7 +202,8 @@ const theme = extendTheme({
       },
       baseStyle: {
         field: {
-          borderRadius: 'xl',
+          borderRadius: '2xl',
+          py: 6,
         },
       },
     },
@@ -120,7 +212,23 @@ const theme = extendTheme({
         focusBorderColor: 'brand.500',
       },
       baseStyle: {
-        borderRadius: 'xl',
+        borderRadius: '2xl',
+        py: 4,
+      },
+    },
+    Heading: {
+      baseStyle: {
+        fontWeight: '700',
+        letterSpacing: '-0.02em',
+      },
+    },
+    Link: {
+      baseStyle: {
+        transition: 'all 0.2s ease',
+        _hover: {
+          textDecoration: 'none',
+          color: 'brand.500',
+        },
       },
     },
   },
