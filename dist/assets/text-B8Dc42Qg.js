@@ -1,0 +1,2 @@
+import{f as n,x as o,d as i,O as x,j as r,c as m,e as l}from"./index-DG7Ugf2n.js";const f=n(function(a,t){const s=o("Text",a),{className:T,align:d,decoration:u,casing:N,...e}=i(a),c=x({textAlign:a.align,textDecoration:a.decoration,textTransform:a.casing});return r.jsx(m.p,{ref:t,className:l("chakra-text",a.className),...c,...e,__css:s})});f.displayName="Text";export{f as T};
+//# sourceMappingURL=text-B8Dc42Qg.js.map

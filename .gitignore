@@ -2,55 +2,38 @@
 # Dependencies
 node_modules/
 
-# Build outputs
-dist/
-build/
-*.tsbuildinfo
-
-# Environment variables
+# Environment
 .env
 .env.local
 .env.*
 
-# IDE specific
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
+# Logs and temp files
 *.log
-
-# Temporary files
 *.tmp
 
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
+# Editors
+.vscode/
+.idea/
 
-# Python cache (if any Python files exist in project)
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# MyPy cache
-.mypy_cache/
-
-# Pytest cache
-.pytest_cache/
-
-# Distribution / packaging
-*.tar.gz
-*.whl
-*.egg
-*.egg-info/
-
-# OS generated files
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/modules/
 .DS_Store
-Thumbs.db
-
-# Vite/Vue specific
-vite.config.d.ts
 ```
