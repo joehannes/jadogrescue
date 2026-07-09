@@ -1,0 +1,77 @@
+[
+  {
+    "id": "shelter-001",
+    "location": {
+      "lat": 18.4861,
+      "lng": -69.9312,
+      "address": "Calle El Sol 45",
+      "city": "Santo Domingo"
+    },
+    "built": "2024-01-15",
+    "builder": "Carlos Rodriguez",
+    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-1.jpg"],
+    "status": "active",
+    "dogs": 3,
+    "hasRainwater": true
+  },
+  {
+    "id": "shelter-002",
+    "location": {
+      "lat": 18.4726,
+      "lng": -69.9069,
+      "address": "Av. George Washington",
+      "city": "Santo Domingo"
+    },
+    "built": "2024-02-20",
+    "builder": "Maria Santos",
+    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-2.jpg"],
+    "status": "active",
+    "dogs": 2,
+    "hasRainwater": true
+  },
+  {
+    "id": "shelter-003",
+    "location": {
+      "lat": 19.4517,
+      "lng": -70.6970,
+      "address": "Calle Duarte 123",
+      "city": "Puerto Plata"
+    },
+    "built": "2024-03-10",
+    "builder": "Juan Perez",
+    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-3.jpg"],
+    "status": "active",
+    "dogs": 4,
+    "hasRainwater": false
+  },
+  {
+    "id": "shelter-004",
+    "location": {
+      "lat": 18.7356,
+      "lng": -70.1644,
+      "address": "Calle Principal 78",
+      "city": "San Pedro de Macoris"
+    },
+    "built": "2024-04-05",
+    "builder": "Ana Martinez",
+    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-4.jpg"],
+    "status": "construction",
+    "dogs": 0,
+    "hasRainwater": true
+  },
+  {
+    "id": "shelter-005",
+    "location": {
+      "lat": 18.4500,
+      "lng": -70.0167,
+      "address": "Zona Colonial",
+      "city": "Santo Domingo"
+    },
+    "built": "2024-05-01",
+    "builder": "Luis Hernandez",
+    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-5.jpg"],
+    "status": "planned",
+    "dogs": 0,
+    "hasRainwater": true
+  }
+]
