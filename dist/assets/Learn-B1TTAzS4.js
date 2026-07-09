@@ -1,0 +1,2 @@
+import{j as r,C as e,V as s}from"./index-DG7Ugf2n.js";import{H as a}from"./heading-DkTyJi9O.js";import{T as i}from"./text-B8Dc42Qg.js";const x=()=>r.jsx(e,{maxW:"container.xl",px:4,py:12,children:r.jsxs(s,{spacing:8,children:[r.jsx(a,{size:"2xl",children:"DIY & Education"}),r.jsx(i,{children:"Learn how to build dog shelters from recycled materials."})]})});export{x as Learn};
+//# sourceMappingURL=Learn-B1TTAzS4.js.map

@@ -8,6 +8,7 @@ build/
 target/
 
 # Environment variables
+# Environment
 .env
 .env.local
 *.env.*
@@ -55,4 +56,33 @@ coverage.xml
 .tox/
 .coverage
 nosetests.xml
+# Logs and temp files
+*.log
+*.tmp
+
+# Editors
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/modules/
+.DS_Store
 ```

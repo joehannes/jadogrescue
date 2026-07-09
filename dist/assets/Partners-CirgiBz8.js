@@ -1,0 +1,2 @@
+import{j as r,C as s,V as t}from"./index-DG7Ugf2n.js";import{H as e}from"./heading-DkTyJi9O.js";import{T as a}from"./text-B8Dc42Qg.js";const x=()=>r.jsx(s,{maxW:"container.xl",px:4,py:12,children:r.jsxs(t,{spacing:8,children:[r.jsx(e,{size:"2xl",children:"Partners"}),r.jsx(a,{children:"Partner with us to host shelters and provide food waste."})]})});export{x as Partners};
+//# sourceMappingURL=Partners-CirgiBz8.js.map

@@ -22,7 +22,7 @@ import { Heart, Wrench, Home as HomeIcon, PawPrint, ArrowRight, Sparkles, Waves,
 import { useNavigate } from 'react-router-dom';
 import sheltersData from '../data/shelters.json';
 import { ShelterCard } from '../components/ShelterCard';
-import { Shelter } from '../types';
+import type { Shelter } from '../types';
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
