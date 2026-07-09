@@ -2,11 +2,60 @@
 # Dependencies
 node_modules/
 
+# Build outputs
+dist/
+build/
+target/
+
+# Environment variables
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.ENV
+.python-version
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.nyc_output/
+coverage.xml
+*.gcda
+*.gcno
+
+# Distribution / packaging
+.pytest_cache/
+.mypy_cache/
+.tox/
+.coverage
+nosetests.xml
 # Logs and temp files
 *.log
 *.tmp
