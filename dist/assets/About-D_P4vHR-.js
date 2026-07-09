@@ -1,0 +1,2 @@
+import{j as i,C as o,V as r}from"./index-DG7Ugf2n.js";import{H as s}from"./heading-DkTyJi9O.js";import{T as a}from"./text-B8Dc42Qg.js";const e=()=>i.jsx(o,{maxW:"container.xl",px:4,py:12,children:i.jsxs(r,{spacing:8,children:[i.jsx(s,{size:"2xl",children:"About John & Abigail"}),i.jsx(a,{children:"Our mission is to connect global micro-donors with local DR rescue via radical transparency."})]})});export{e as About};
+//# sourceMappingURL=About-D_P4vHR-.js.map

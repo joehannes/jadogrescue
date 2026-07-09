@@ -21,13 +21,14 @@ import { FiHeart, FiTool, FiHome } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import sheltersData from '../data/shelters.json';
 import { ShelterCard } from '../components/ShelterCard';
+import type { Shelter } from '../types';
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
-  const featuredShelters = sheltersData.slice(0, 3);
+  const featuredShelters = sheltersData.slice(0, 3) as Shelter[];
 
   const stats = [
     { label: 'Shelters Built', number: '5+', help: 'Across Dominican Republic' },
