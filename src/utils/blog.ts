@@ -2,11 +2,10 @@ import matter from 'gray-matter';
 import { BlogPost } from '../types';
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  const posts = import.meta.glob<true>('../content/blog/*.md', { eager: true });
+  const posts = import.meta.glob('../content/blog/*.md', { eager: true, as: 'raw' });
   
-  const blogPosts: BlogPost[] = Object.entries(posts).map(([path, module]) => {
-    const file = module.default as string;
-    const { data, content } = matter(file);
+  const blogPosts: BlogPost[] = Object.entries(posts).map(([path, content]) => {
+    const { data, content: markdownContent } = matter(content as string);
     
     const slug = path.split('/').pop()?.replace('.md', '') || '';
     
@@ -17,7 +16,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       author: data.author || 'Anonymous',
       tags: data.tags || [],
       verified: data.verified || false,
-      content,
+      content: markdownContent,
       excerpt: data.excerpt,
       heroImage: data.heroImage,
     };

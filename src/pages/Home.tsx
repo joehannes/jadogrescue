@@ -23,6 +23,7 @@ import sheltersData from '../data/shelters.json';
 import { ShelterCard } from '../components/ShelterCard';
 
 const MotionBox = motion(Box);
+const MotionCard = motion(Card);
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
