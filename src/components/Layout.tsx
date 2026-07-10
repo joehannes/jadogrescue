@@ -22,8 +22,6 @@ import {
 } from '@chakra-ui/react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FiMenu, FiHeart, FiX, FiHome, FiMap, FiBook, FiInfo, FiMail, FiDollarSign, FiTool, FiUsers } from 'react-icons/fi';
-import { IconType } from 'react-icons';
 import { 
   PawPrint, 
   MapPin, 
@@ -84,7 +82,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children, icon, onClose }) => {
         },
       }}
     >
-      {icon && <Icon as={icon} boxSize={4} />}
+      {icon && <icon size={16} />}
       {children}
     </Link>
   );
@@ -469,7 +467,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                     onClick={onClose}
                     variant="ghost"
                     justifyContent="flex-start"
-                    leftIcon={<Icon as={link.icon as any} boxSize={5} />}
+                    leftIcon={<link.icon size={20} />}
                     fontWeight={location.pathname === link.to ? '700' : '500'}
                     color={location.pathname === link.to ? 'brand.500' : 'gray.700'}
                     size="lg"

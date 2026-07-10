@@ -13,7 +13,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { FiMapPin, FiCalendar, FiDroplet } from 'react-icons/fi';
+import { MapPin, Calendar, Droplet } from 'lucide-react';
 import { Shelter } from '../types';
 import { useNavigate } from 'react-router-dom';
 
@@ -66,18 +66,18 @@ export const ShelterCard: React.FC<ShelterCardProps> = ({ shelter }) => {
           <Heading size="md">{shelter.location.city}</Heading>
           
           <HStack color="gray.600" fontSize="sm">
-            <FiMapPin />
+            <MapPin size={16} />
             <Text>{shelter.location.address}</Text>
           </HStack>
 
           <HStack color="gray.600" fontSize="sm">
-            <FiCalendar />
+            <Calendar size={16} />
             <Text>Built: {new Date(shelter.built).toLocaleDateString()}</Text>
           </HStack>
 
           {shelter.hasRainwater && (
             <HStack color="tropical.500" fontSize="sm" fontWeight="600">
-              <FiDroplet />
+              <Droplet size={16} />
               <Text>Rainwater System Included</Text>
             </HStack>
           )}
