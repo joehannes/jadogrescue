@@ -6,7 +6,7 @@ author: "Carlos Rodriguez"
 tags: ["tutorial", "diy"]
 verified: true
 excerpt: "Learn how to build an automatic rainwater drinking system using recycled materials—perfect for our dog shelters."
-heroImage: "https://res.cloudinary.com/demo/image/upload/rainwater-system.jpg"
+heroImage: "https://res.cloudinary.com/dkxlhxpe4/image/upload/f_auto,q_auto,c_fill,w_1400/jadr/dog3"
 ---
 
 ## Why Rainwater Collection Matters

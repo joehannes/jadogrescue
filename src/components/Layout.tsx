@@ -19,9 +19,14 @@ import {
   Icon,
   Badge,
   Heading,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { waLink, WHATSAPP_URL, PHONE_DISPLAY } from '../utils/media';
+import { paws } from '../utils/patterns';
+import { SectionDivider } from './SectionDivider';
 import { 
   PawPrint, 
   MapPin, 
@@ -266,37 +271,33 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       </MotionBox>
 
       {/* Main Content */}
-      <Box as="main" flex={1}>
+      <Box as="main" flex={1} position="relative" zIndex={1}>
         {children}
       </Box>
 
       {/* Enhanced Footer */}
       <MotionBox
         as="footer"
-        bgGradient="linear(to-r, ocean.600, ocean.800)"
+        bgGradient="linear(155deg, ocean.600 0%, ocean.800 55%, #06263f 100%)"
         color="white"
-        pt={16}
-        pb={8}
+        pt={{ base: 28, md: 36 }}
+        pb={10}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
         position="relative"
+        zIndex={2}
         overflow="hidden"
       >
-        {/* Decorative wave pattern */}
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          right={0}
-          h={20}
-          bg="sand.100"
-          sx={{
-            clipPath: 'ellipse(150% 100% at 50% 0%)',
-          }}
-        />
-        
-        <Container maxW="container.xl" px={4} position="relative">
+        {/* Curved light divider capping the footer (matches page background) */}
+        <SectionDivider color="sand.100" variant="curve" position="top" height={{ base: 18, md: 28 }} />
+        {/* Whispered paw pattern + warm glow */}
+        <Box position="absolute" inset={0} sx={{ backgroundImage: paws('#ffffff', 0.05, 100) }} pointerEvents="none" />
+        <Box position="absolute" bottom="-20%" right="-5%" w={96} h={96} bg="brand.500" opacity={0.14} filter="blur(120px)" borderRadius="full" pointerEvents="none" />
+        <Box position="absolute" top="10%" left="-8%" w={80} h={80} bg="tropical.500" opacity={0.12} filter="blur(120px)" borderRadius="full" pointerEvents="none" />
+
+        <Container maxW="container.xl" px={4} position="relative" zIndex={1}>
           <VStack spacing={10} align="stretch">
             <Flex
               direction={{ base: 'column', md: 'row' }}
@@ -388,10 +389,26 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 
                 <Box>
                   <Heading size="sm" mb={4} fontFamily="heading">Contact</Heading>
-                  <VStack align="start" spacing={2} fontSize="sm" opacity={0.9}>
-                    <Box>📍 Bavaro, Dominican Republic</Box>
-                    <Box>📧 hello@jadr.org</Box>
-                    <Box>📱 +1 (809) 555-0123</Box>
+                  <VStack align="start" spacing={2} fontSize="sm">
+                    <Link
+                      href="https://maps.google.com/?q=Bavaro+Dominican+Republic"
+                      isExternal
+                      opacity={0.9}
+                      _hover={{ opacity: 1, color: 'white' }}
+                    >
+                      📍 Bavaro, Dominican Republic
+                    </Link>
+                    <Link href="mailto:hello@jadr.org" opacity={0.9} _hover={{ opacity: 1, color: 'white' }}>
+                      📧 hello@jadr.org
+                    </Link>
+                    <Link
+                      href={waLink(PHONE_DISPLAY, 'Hi! I have a question about John & Abigail Dog Rescue.')}
+                      isExternal
+                      opacity={0.9}
+                      _hover={{ opacity: 1, color: 'white' }}
+                    >
+                      💬 {PHONE_DISPLAY}
+                    </Link>
                   </VStack>
                 </Box>
               </Flex>
@@ -407,15 +424,17 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               fontSize="sm"
               opacity={0.8}
               gap={4}
+              textAlign="center"
             >
               <Box>
                 © {new Date().getFullYear()} John & Abigail Dog Rescue. All rights reserved.
               </Box>
-              <HStack spacing={6}>
-                <Link href="#" isExternal>Privacy Policy</Link>
-                <Link href="#" isExternal>Terms of Service</Link>
-                <Link href="#" isExternal>Transparency Report</Link>
-              </HStack>
+              <Wrap spacing={{ base: 4, md: 6 }} justify="center">
+                <WrapItem><Link href="#" isExternal>Privacy Policy</Link></WrapItem>
+                <WrapItem><Link href="#" isExternal>Terms of Service</Link></WrapItem>
+                <WrapItem><Link href="#" isExternal>Transparency Report</Link></WrapItem>
+                <WrapItem><NavLink to="/admin" footer>Admin</NavLink></WrapItem>
+              </Wrap>
             </Flex>
             
             {/* Made with love badge */}

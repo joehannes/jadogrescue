@@ -77,6 +77,7 @@ export const BlogPost: React.FC = () => {
         eyebrowIcon={PawPrint}
         title={post.title}
         gradient="linear(to-br, ocean.600 via ocean.700 to brand.600)"
+        bgImage={post.heroImage}
       >
         <HStack spacing={5} color="white" opacity={0.95} flexWrap="wrap" justify="center">
           <HStack spacing={2}>

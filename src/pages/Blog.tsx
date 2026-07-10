@@ -22,6 +22,7 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, BadgeCheck, ArrowRight, Newspaper, PawPrint } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { PageHero } from '../components/PageHero';
+import { IMAGES } from '../utils/media';
 import { getBlogPosts } from '../utils/blog';
 import type { BlogPost } from '../types';
 
@@ -64,6 +65,7 @@ export const Blog: React.FC = () => {
         highlight="A Story"
         subtitle="Follow the builds, the rescues and the people making it happen across the Dominican Republic."
         gradient="linear(to-br, ocean.500 via ocean.600 to brand.600)"
+        bgImage={IMAGES.heroPack}
       />
 
       <Container maxW="container.xl" px={4} py={{ base: 12, md: 20 }}>

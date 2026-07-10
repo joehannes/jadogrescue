@@ -27,6 +27,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { PageHero } from '../components/PageHero';
+import { IMAGES, WHATSAPP_URL, PHONE_DISPLAY, waLink } from '../utils/media';
 
 const MotionCard = motion(Card);
 
@@ -34,8 +35,8 @@ const channels = [
   {
     icon: MessageCircle,
     title: 'WhatsApp',
-    value: '+1 (809) 555-0123',
-    href: 'https://wa.me/18095550123',
+    value: PHONE_DISPLAY,
+    href: WHATSAPP_URL,
     color: 'tropical',
     note: 'Fastest way to reach us',
   },
@@ -90,6 +91,7 @@ export const Contact: React.FC = () => {
         highlight="Hear From You"
         subtitle="Questions, ideas, a dog that needs help, or just a hello — reach out any way you like. Real people read every message."
         gradient="linear(to-br, brand.500 via coral.500 to ocean.600)"
+        bgImage={IMAGES.heroPuppy}
       />
 
       {/* Contact channels */}
@@ -239,7 +241,7 @@ export const Contact: React.FC = () => {
                     </Box>
                     <Button
                       as={Link}
-                      href="https://wa.me/18095550123"
+                      href={waLink(PHONE_DISPLAY, "Hi! I found a dog that needs help.")}
                       isExternal
                       bg="tropical.500"
                       color="white"

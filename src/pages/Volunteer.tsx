@@ -35,6 +35,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
+import { IMAGES } from '../utils/media';
 
 const MotionCard = motion(Card);
 const MotionBox = motion(Box);
@@ -84,6 +85,7 @@ export const Volunteer: React.FC = () => {
         highlight="Change a Life"
         subtitle="You don't need money to make a difference. Hands, skills, a camera or a car — every kind of help builds shelters and rescues dogs."
         gradient="linear(to-br, ocean.500 via ocean.600 to tropical.600)"
+        bgImage={IMAGES.heroPack}
       />
 
       {/* Roles */}

@@ -39,13 +39,14 @@ export const ShelterCard: React.FC<ShelterCardProps> = ({ shelter }) => {
       overflow="hidden"
       borderRadius="2xl"
     >
-      <Box position="relative">
+      <Box position="relative" h={200} bgGradient="linear(to-br, brand.400, ocean.500)">
         <Image
           src={shelter.photos[0]}
           alt={`Shelter in ${shelter.location.city}`}
           h={200}
           w="100%"
           objectFit="cover"
+          fallback={<Box h={200} w="100%" bgGradient="linear(to-br, brand.400, ocean.500)" />}
         />
         <Badge
           position="absolute"
