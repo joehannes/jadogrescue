@@ -14,23 +14,23 @@ interface DonationState {
 export const donationTiers: DonationTier[] = [
   {
     amount: 10,
-    title: 'Builder',
-    impact: ['Builds 1 shelter', 'Uses 200+ recycled bottles', 'Provides rainwater system'],
+    title: 'The Builder',
+    impact: ['Funds exactly 1 complete shelter', 'Materials + 4 hours of fair local labor', 'Reuses 200+ discarded bottles'],
   },
   {
     amount: 25,
-    title: 'Sustainer',
-    impact: ['Builds 2.5 shelters', 'Feeds 1 dog for a month', 'Supports local builder'],
+    title: 'The Sustainer',
+    impact: ['Funds 2 shelters', 'Maintenance kit for 3 existing shelters', 'Extra rope & palm fiber included'],
   },
   {
     amount: 50,
-    title: 'Hero',
-    impact: ['Builds 5 shelters', 'Feeds 3 dogs for a month', 'Includes medical checkups'],
+    title: 'Community Hero',
+    impact: ['Funds 5 shelters in one neighborhood', 'Creates a safe zone for a local pack', 'Autonomous rainwater at each'],
   },
   {
     amount: 100,
-    title: 'Leader',
-    impact: ['Builds 10 shelters', 'Feeds 5 dogs for a month', 'Full community program'],
+    title: 'Squad Leader',
+    impact: ['Funds a full Shelter Building Day', 'Employs 2 local workers for a week', 'Builds 10+ shelters'],
   },
 ];
 

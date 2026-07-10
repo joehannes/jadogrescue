@@ -130,7 +130,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     { to: '/map', label: 'Map', icon: MapPin },
     { to: '/blog', label: 'Blog', icon: BookOpen },
     { to: '/learn', label: 'Learn', icon: Wrench },
-    { to: '/about', label: 'About', icon: Info },
+    { to: '/vision-mission', label: 'Vision', icon: Info },
     { to: '/contact', label: 'Contact', icon: Mail },
   ];
 
@@ -370,7 +370,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Box>
                   <Heading size="sm" mb={4} fontFamily="heading">Quick Links</Heading>
                   <VStack align="start" spacing={2}>
-                    <NavLink to="/about" footer>About Us</NavLink>
+                    <NavLink to="/vision-mission" footer>Vision &amp; Mission</NavLink>
                     <NavLink to="/donate" footer>Donate</NavLink>
                     <NavLink to="/volunteer" footer>Volunteer</NavLink>
                     <NavLink to="/partners" footer>Partners</NavLink>
@@ -430,9 +430,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 © {new Date().getFullYear()} John & Abigail Dog Rescue. All rights reserved.
               </Box>
               <Wrap spacing={{ base: 4, md: 6 }} justify="center">
-                <WrapItem><Link href="#" isExternal>Privacy Policy</Link></WrapItem>
-                <WrapItem><Link href="#" isExternal>Terms of Service</Link></WrapItem>
-                <WrapItem><Link href="#" isExternal>Transparency Report</Link></WrapItem>
+                <WrapItem><NavLink to="/privacy" footer>Privacy Policy</NavLink></WrapItem>
+                <WrapItem><NavLink to="/terms" footer>Terms of Service</NavLink></WrapItem>
+                <WrapItem><NavLink to="/transparency" footer>Transparency Report</NavLink></WrapItem>
                 <WrapItem><NavLink to="/admin" footer>Admin</NavLink></WrapItem>
               </Wrap>
             </Flex>

@@ -55,10 +55,29 @@ import {
 } from 'lucide-react';
 import sheltersData from '../data/shelters.json';
 import type { Shelter } from '../types';
+import { paws, topo } from '../utils/patterns';
 
 const MotionBox = motion(Box);
 
-const DEMO_PASSWORD = 'rescue2024';
+const DEFAULT_PASSWORD = 'dogrescue';
+const PW_KEY = 'jadr_admin_pw';
+
+/** Current admin password — persisted in localStorage, defaulting to 'dogrescue'. */
+const getAdminPassword = (): string => {
+  try {
+    return localStorage.getItem(PW_KEY) || DEFAULT_PASSWORD;
+  } catch {
+    return DEFAULT_PASSWORD;
+  }
+};
+
+const setAdminPassword = (pw: string): void => {
+  try {
+    localStorage.setItem(PW_KEY, pw);
+  } catch {
+    /* ignore storage errors (private mode etc.) */
+  }
+};
 
 const recentDonations = [
   { name: 'Sarah M.', amount: 50, recurring: true, when: '2h ago' },
@@ -94,14 +113,41 @@ export const Admin: React.FC = () => {
   const [newStatus, setNewStatus] = useState<Shelter['status']>('planned');
   const [newRain, setNewRain] = useState(true);
 
+  // Change-password form state
+  const [curPw, setCurPw] = useState('');
+  const [nextPw, setNextPw] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
+  const [isDefaultPw, setIsDefaultPw] = useState(() => getAdminPassword() === DEFAULT_PASSWORD);
+
   const login = () => {
-    if (pw === DEMO_PASSWORD) {
+    if (pw === getAdminPassword()) {
       sessionStorage.setItem('jadr_admin', '1');
       setAuthed(true);
       setPwError(false);
     } else {
       setPwError(true);
     }
+  };
+
+  const updatePassword = () => {
+    if (curPw !== getAdminPassword()) {
+      toast({ title: 'Current password is incorrect', status: 'error', duration: 2500 });
+      return;
+    }
+    if (nextPw.length < 6) {
+      toast({ title: 'New password must be at least 6 characters', status: 'warning', duration: 2500 });
+      return;
+    }
+    if (nextPw !== confirmPw) {
+      toast({ title: 'New passwords do not match', status: 'warning', duration: 2500 });
+      return;
+    }
+    setAdminPassword(nextPw);
+    setIsDefaultPw(nextPw === DEFAULT_PASSWORD);
+    setCurPw('');
+    setNextPw('');
+    setConfirmPw('');
+    toast({ title: 'Password updated', description: 'Your new admin password is now active.', status: 'success', duration: 3000 });
   };
 
   const logout = () => {
@@ -163,10 +209,13 @@ export const Admin: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <Card borderRadius="3xl" boxShadow="2xl" overflow="hidden">
-            <Box bgGradient="linear(to-r, ocean.600, brand.500)" py={10} textAlign="center" color="white">
-              <Icon as={Lock} boxSize={10} mb={2} />
-              <Heading size="lg" fontFamily="heading">Admin Access</Heading>
-              <Text opacity={0.9} mt={1}>Staff dashboard — please sign in</Text>
+            <Box bgGradient="linear(to-r, ocean.600, brand.500)" py={10} textAlign="center" color="white" position="relative" overflow="hidden">
+              <Box position="absolute" inset={0} sx={{ backgroundImage: paws('#ffffff', 0.08, 90) }} pointerEvents="none" />
+              <Box position="relative">
+                <Icon as={Lock} boxSize={10} mb={2} />
+                <Heading size="lg" fontFamily="heading">Admin Access</Heading>
+                <Text opacity={0.9} mt={1}>Staff dashboard — please sign in</Text>
+              </Box>
             </Box>
             <CardBody p={{ base: 6, md: 10 }}>
               <VStack spacing={5}>
@@ -189,8 +238,8 @@ export const Admin: React.FC = () => {
                   Sign In
                 </Button>
                 <Text fontSize="xs" color="gray.400" textAlign="center">
-                  Demo dashboard — password is <b>rescue2024</b>. This is a client-side gate for
-                  preview only, not real authentication.
+                  Default password is <b>dogrescue</b> — you can change it under Settings once signed
+                  in. This is a client-side gate for preview only, not real authentication.
                 </Text>
               </VStack>
             </CardBody>
@@ -209,10 +258,12 @@ export const Admin: React.FC = () => {
   ];
 
   return (
-    <Box bg="sand.100" minH="100vh">
+    <Box bg="sand.100" minH="100vh" position="relative">
+      <Box position="absolute" inset={0} sx={{ backgroundImage: paws('#004E89', 0.035, 110) }} pointerEvents="none" />
       {/* Top bar */}
-      <Box bgGradient="linear(to-r, ocean.700, ocean.900)" color="white" py={6}>
-        <Container maxW="container.xl" px={4}>
+      <Box bgGradient="linear(to-r, ocean.700, ocean.900)" color="white" py={6} position="relative" overflow="hidden">
+        <Box position="absolute" inset={0} sx={{ backgroundImage: topo('#ffffff', 0.06, 140) }} pointerEvents="none" />
+        <Container maxW="container.xl" px={4} position="relative">
           <Flex justify="space-between" align="center" flexWrap="wrap" gap={4}>
             <HStack spacing={3}>
               <Box w={11} h={11} borderRadius="xl" bg="whiteAlpha.200" display="flex" alignItems="center" justifyContent="center">
@@ -230,7 +281,7 @@ export const Admin: React.FC = () => {
         </Container>
       </Box>
 
-      <Container maxW="container.xl" px={4} py={{ base: 8, md: 12 }}>
+      <Container maxW="container.xl" px={4} py={{ base: 8, md: 12 }} position="relative">
         {/* Stat cards */}
         <SimpleGrid columns={{ base: 2, md: 4 }} spacing={5} mb={10}>
           {statCards.map((s, i) => (
@@ -262,6 +313,7 @@ export const Admin: React.FC = () => {
             <Tab><HStack spacing={2}><HomeIcon size={16} /><Text>Shelters</Text></HStack></Tab>
             <Tab><HStack spacing={2}><DollarSign size={16} /><Text>Donations</Text></HStack></Tab>
             <Tab><HStack spacing={2}><Inbox size={16} /><Text>Inquiries</Text></HStack></Tab>
+            <Tab><HStack spacing={2}><ShieldCheck size={16} /><Text>Settings</Text></HStack></Tab>
           </TabList>
 
           <TabPanels>
@@ -402,6 +454,94 @@ export const Admin: React.FC = () => {
                     </CardBody>
                   </Card>
                 ))}
+              </SimpleGrid>
+            </TabPanel>
+
+            {/* Settings */}
+            <TabPanel px={0}>
+              <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6}>
+                <Card borderRadius="2xl" boxShadow="md">
+                  <CardBody>
+                    <HStack mb={1} spacing={2}>
+                      <Lock size={18} color="#004E89" />
+                      <Heading size="sm" color="ocean.700">Change Admin Password</Heading>
+                    </HStack>
+                    <Text fontSize="sm" color="gray.500" mb={5}>
+                      Update the password used to sign in to this dashboard. Stored locally in your browser.
+                    </Text>
+
+                    {isDefaultPw && (
+                      <HStack mb={4} p={3} borderRadius="xl" bg="coral.50" color="coral.700" fontSize="sm" spacing={2}>
+                        <ShieldCheck size={16} />
+                        <Text>You're still using the default password. Set your own below.</Text>
+                      </HStack>
+                    )}
+
+                    <VStack spacing={4} align="stretch">
+                      <FormControl>
+                        <FormLabel fontSize="sm">Current password</FormLabel>
+                        <Input
+                          type="password"
+                          value={curPw}
+                          onChange={(e) => setCurPw(e.target.value)}
+                          placeholder="Current password"
+                          size="sm"
+                          borderRadius="lg"
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel fontSize="sm">New password</FormLabel>
+                        <Input
+                          type="password"
+                          value={nextPw}
+                          onChange={(e) => setNextPw(e.target.value)}
+                          placeholder="At least 6 characters"
+                          size="sm"
+                          borderRadius="lg"
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel fontSize="sm">Confirm new password</FormLabel>
+                        <Input
+                          type="password"
+                          value={confirmPw}
+                          onChange={(e) => setConfirmPw(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && updatePassword()}
+                          placeholder="Re-enter new password"
+                          size="sm"
+                          borderRadius="lg"
+                        />
+                      </FormControl>
+                      <Button colorScheme="brand" leftIcon={<Lock size={16} />} onClick={updatePassword} alignSelf="flex-start">
+                        Update Password
+                      </Button>
+                    </VStack>
+                  </CardBody>
+                </Card>
+
+                <Card borderRadius="2xl" boxShadow="md">
+                  <CardBody>
+                    <HStack mb={1} spacing={2}>
+                      <ShieldCheck size={18} color="#1A936F" />
+                      <Heading size="sm" color="ocean.700">Session</Heading>
+                    </HStack>
+                    <Text fontSize="sm" color="gray.500" mb={5}>
+                      This dashboard uses a client-side gate for preview purposes only — it is not
+                      real authentication and should not protect sensitive data.
+                    </Text>
+                    <VStack align="stretch" spacing={3}>
+                      <Flex justify="space-between" p={3} borderRadius="xl" bg="sand.100">
+                        <Text fontSize="sm" fontWeight="600">Password status</Text>
+                        <Badge colorScheme={isDefaultPw ? 'coral' : 'tropical'}>
+                          {isDefaultPw ? 'Default' : 'Customized'}
+                        </Badge>
+                      </Flex>
+                      <Button variant="outline" colorScheme="ocean" leftIcon={<LogOut size={16} />} onClick={logout}>
+                        Sign Out
+                      </Button>
+                    </VStack>
+                  </CardBody>
+                </Card>
               </SimpleGrid>
             </TabPanel>
           </TabPanels>
