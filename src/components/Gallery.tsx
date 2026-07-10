@@ -12,6 +12,7 @@ import {
 import { motion } from 'framer-motion';
 import { Camera } from 'lucide-react';
 import { SectionHeading } from './SectionHeading';
+import { topo } from '../utils/patterns';
 
 const MotionBox = motion(Box);
 
@@ -33,8 +34,10 @@ export const Gallery: React.FC<GalleryProps> = ({ images }) => {
   const spans = [2, 1, 1, 1, 1, 2];
 
   return (
-    <Box w="full" bgGradient="linear(to-b, sand.100, white)" py={{ base: 16, md: 24 }}>
-      <Container maxW="container.xl" px={4}>
+    <Box w="full" bgGradient="linear(to-b, sand.100, white)" py={{ base: 16, md: 24 }} position="relative" overflow="hidden">
+      <Box position="absolute" inset={0} sx={{ backgroundImage: topo('#004E89', 0.05, 150) }} pointerEvents="none" />
+      <Container maxW="container.xl" px={4} position="relative">
+
         <SectionHeading
           eyebrow="Moments"
           eyebrowColor="coral"

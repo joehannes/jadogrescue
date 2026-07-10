@@ -25,6 +25,8 @@ import {
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { waLink, WHATSAPP_URL, PHONE_DISPLAY } from '../utils/media';
+import { paws } from '../utils/patterns';
+import { SectionDivider } from './SectionDivider';
 import { 
   PawPrint, 
   MapPin, 
@@ -269,37 +271,33 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       </MotionBox>
 
       {/* Main Content */}
-      <Box as="main" flex={1}>
+      <Box as="main" flex={1} position="relative" zIndex={1}>
         {children}
       </Box>
 
       {/* Enhanced Footer */}
       <MotionBox
         as="footer"
-        bgGradient="linear(to-r, ocean.600, ocean.800)"
+        bgGradient="linear(155deg, ocean.600 0%, ocean.800 55%, #06263f 100%)"
         color="white"
-        pt={16}
-        pb={8}
+        pt={{ base: 28, md: 36 }}
+        pb={10}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
         position="relative"
+        zIndex={2}
         overflow="hidden"
       >
-        {/* Decorative wave pattern */}
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          right={0}
-          h={20}
-          bg="sand.100"
-          sx={{
-            clipPath: 'ellipse(150% 100% at 50% 0%)',
-          }}
-        />
-        
-        <Container maxW="container.xl" px={4} position="relative">
+        {/* Curved light divider capping the footer (matches page background) */}
+        <SectionDivider color="sand.100" variant="curve" position="top" height={{ base: 18, md: 28 }} />
+        {/* Whispered paw pattern + warm glow */}
+        <Box position="absolute" inset={0} sx={{ backgroundImage: paws('#ffffff', 0.05, 100) }} pointerEvents="none" />
+        <Box position="absolute" bottom="-20%" right="-5%" w={96} h={96} bg="brand.500" opacity={0.14} filter="blur(120px)" borderRadius="full" pointerEvents="none" />
+        <Box position="absolute" top="10%" left="-8%" w={80} h={80} bg="tropical.500" opacity={0.12} filter="blur(120px)" borderRadius="full" pointerEvents="none" />
+
+        <Container maxW="container.xl" px={4} position="relative" zIndex={1}>
           <VStack spacing={10} align="stretch">
             <Flex
               direction={{ base: 'column', md: 'row' }}

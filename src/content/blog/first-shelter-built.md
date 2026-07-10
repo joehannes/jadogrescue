@@ -6,7 +6,7 @@ author: "John & Abigail"
 tags: ["success-story", "milestone"]
 verified: true
 excerpt: "We're thrilled to announce the completion of our very first dog shelter in Santo Domingo, built entirely from recycled plastic bottles."
-heroImage: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=1400"
+heroImage: "https://res.cloudinary.com/dkxlhxpe4/image/upload/f_auto,q_auto,c_fill,w_1400/jadr/dog-hero"
 ---
 
 ## A Community Effort

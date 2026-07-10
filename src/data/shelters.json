@@ -10,7 +10,7 @@
     "built": "2024-01-15",
     "builder": "Carlos Rodriguez",
     "photos": [
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&q=80&w=800"
+      "https://res.cloudinary.com/dkxlhxpe4/image/upload/f_auto,q_auto,c_fill,w_800/jadr/dog2"
     ],
     "status": "active",
     "dogs": 3,
@@ -27,7 +27,7 @@
     "built": "2024-02-20",
     "builder": "Maria Santos",
     "photos": [
-      "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=800"
+      "https://res.cloudinary.com/dkxlhxpe4/image/upload/f_auto,q_auto,c_fill,w_800/jadr/dog-hero"
     ],
     "status": "active",
     "dogs": 2,
@@ -44,7 +44,7 @@
     "built": "2024-03-10",
     "builder": "Juan Perez",
     "photos": [
-      "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&q=80&w=800"
+      "https://res.cloudinary.com/dkxlhxpe4/image/upload/f_auto,q_auto,c_fill,w_800/jadr/dog3"
     ],
     "status": "active",
     "dogs": 4,
@@ -61,7 +61,7 @@
     "built": "2024-04-05",
     "builder": "Ana Martinez",
     "photos": [
-      "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800"
+      "https://res.cloudinary.com/dkxlhxpe4/image/upload/f_auto,q_auto,c_fill,w_800/jadr/pack"
     ],
     "status": "construction",
     "dogs": 0,
@@ -78,7 +78,7 @@
     "built": "2024-05-01",
     "builder": "Luis Hernandez",
     "photos": [
-      "https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&q=80&w=800"
+      "https://res.cloudinary.com/dkxlhxpe4/image/upload/f_auto,q_auto,c_fill,w_800/jadr/puppy"
     ],
     "status": "planned",
     "dogs": 0,

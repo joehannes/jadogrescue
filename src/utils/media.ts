@@ -1,42 +1,47 @@
 /**
  * Central place for imagery + contact helpers.
  *
- * Images are hotlinked from Unsplash (free to use). Swap any of these for
- * your own photography — the components degrade gracefully to a gradient
- * if an image ever fails to load.
+ * Images are served from our own Cloudinary account (f_auto/q_auto for
+ * automatic format + compression). Components degrade gracefully to a
+ * gradient if an image ever fails to load.
  */
 
-const u = (id: string, w = 1200, h?: number) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=${w}${h ? `&h=${h}` : ''}`;
+export const CLOUDINARY_CLOUD = 'dkxlhxpe4';
+
+/** Build an optimized Cloudinary delivery URL for a public id under jadr/. */
+export function cld(id: string, w = 1200, h?: number): string {
+  const t = ['f_auto', 'q_auto', 'c_fill', 'g_auto', `w_${w}`, ...(h ? [`h_${h}`] : [])].join(',');
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/${t}/jadr/${id}`;
+}
 
 export const IMAGES = {
   // Hero / banner backgrounds (wide, work under a dark gradient overlay)
-  heroDog: u('1583337130417-3346a1be7dee', 1600),
-  heroBeach: u('1507525428034-b723cf961d3e', 1600),
-  heroPuppy: u('1450778869180-41d0601e046e', 1600),
-  heroPack: u('1548199973-03cce0bbc87b', 1600),
-  heroWorkshop: u('1441986300917-64674bd600d8', 1600),
+  heroDog: cld('dog-hero', 1600, 900),
+  heroBeach: cld('beach', 1600, 900),
+  heroPuppy: cld('puppy', 1600, 900),
+  heroPack: cld('pack', 1600, 900),
+  heroWorkshop: cld('workshop', 1600, 900),
 
   // Story / gallery imagery
   gallery: [
-    u('1583337130417-3346a1be7dee', 800),
-    u('1518717758536-85ae29035b6d', 800),
-    u('1548199973-03cce0bbc87b', 800),
-    u('1534361960057-19889db9621e', 800),
-    u('1477884213360-7e9d7dcc1e48', 800),
-    u('1450778869180-41d0601e046e', 800),
+    cld('dog-hero', 800),
+    cld('dog2', 800),
+    cld('pack', 800),
+    cld('dog3', 800),
+    cld('dog4', 800),
+    cld('puppy', 800),
   ],
 
   // Video poster
-  videoPoster: u('1477884213360-7e9d7dcc1e48', 1400),
+  videoPoster: cld('dog4', 1400, 800),
 
-  // Shelter card fallbacks by city (keyed loosely)
+  // Shelter card fallbacks
   shelter: [
-    u('1518717758536-85ae29035b6d', 800),
-    u('1583337130417-3346a1be7dee', 800),
-    u('1534361960057-19889db9621e', 800),
-    u('1548199973-03cce0bbc87b', 800),
-    u('1450778869180-41d0601e046e', 800),
+    cld('dog2', 800, 600),
+    cld('dog-hero', 800, 600),
+    cld('dog3', 800, 600),
+    cld('pack', 800, 600),
+    cld('puppy', 800, 600),
   ],
 };
 

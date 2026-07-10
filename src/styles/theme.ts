@@ -1,4 +1,5 @@
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
+import { paws } from '../utils/patterns';
 
 const config: ThemeConfig = {
   initialColorMode: 'light',
@@ -84,10 +85,12 @@ const theme = extendTheme({
   fonts: {
     // Playfair Display: Elegant serif for main headings, titles, testimonials
     heading: "'Playfair Display', serif",
-    // Poppins: Modern geometric sans for branding, navigation, CTAs, subheadings
+    // Inter: Clean sans for body text, paragraphs, UI
     body: "'Inter', sans-serif",
-    // Dancing Script: Handwritten for accents, quotes, signatures
+    // JetBrains Mono: Technical labels, eyebrows, coordinates
     mono: "'JetBrains Mono', monospace",
+    // Dancing Script: Handwritten accent for highlighted hero words & signatures
+    accent: "'Dancing Script', cursive",
   },
   fontSizes: {
     xs: '0.75rem',
@@ -107,6 +110,8 @@ const theme = extendTheme({
     global: {
       body: {
         bg: 'sand.100',
+        backgroundImage: paws('#004E89', 0.035, 110),
+        backgroundAttachment: 'fixed',
         color: 'gray.800',
         fontFamily: 'body',
         lineHeight: '1.7',

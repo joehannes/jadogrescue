@@ -14,6 +14,8 @@ import {
 import { motion } from 'framer-motion';
 import { Play, Film, Clock3, Recycle, PawPrint } from 'lucide-react';
 import { IMAGES, DEMO_VIDEO } from '../utils/media';
+import { waves } from '../utils/patterns';
+import { SectionDivider } from './SectionDivider';
 
 const MotionBox = motion(Box);
 
@@ -41,8 +43,12 @@ export const VideoShowcase: React.FC = () => {
   };
 
   return (
-    <Box w="full" bgGradient="linear(to-br, ocean.700, ocean.900)" py={{ base: 16, md: 24 }} position="relative" overflow="hidden">
-      {/* soft glow */}
+    <Box w="full" bgGradient="linear(150deg, ocean.700, ocean.900 70%, #06263f)" pt={{ base: 28, md: 40 }} pb={{ base: 28, md: 40 }} position="relative" overflow="hidden">
+      {/* curved transitions in and out of this dark band */}
+      <SectionDivider color="sand.100" variant="wave" position="top" flip height={{ base: 36, md: 60 }} />
+      <SectionDivider color="sand.100" variant="curve" position="bottom" height={{ base: 36, md: 60 }} />
+      {/* wave pattern + soft glow */}
+      <Box position="absolute" inset={0} sx={{ backgroundImage: waves('#ffffff', 0.06, 90) }} pointerEvents="none" />
       <Box position="absolute" top="-10%" right="-5%" w={80} h={80} bg="brand.500" opacity={0.2} filter="blur(100px)" borderRadius="full" />
 
       <Container maxW="container.xl" px={4} position="relative">
