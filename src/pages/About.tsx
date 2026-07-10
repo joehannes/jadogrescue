@@ -28,6 +28,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
+import { IMAGES } from '../utils/media';
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
@@ -84,6 +85,7 @@ export const About: React.FC = () => {
         title="Making Something"
         highlight="Out of Little"
         subtitle="John & Abigail Dog Rescue connects global micro-donors with local Dominican rescue through radical transparency — one recycled bottle, one shelter, one dog at a time."
+        bgImage={IMAGES.heroDog}
       />
 
       {/* Mission statement with quote */}

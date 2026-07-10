@@ -36,6 +36,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
+import { IMAGES } from '../utils/media';
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
@@ -122,6 +123,7 @@ export const Learn: React.FC = () => {
         highlight="From Recycled Bottles"
         subtitle="A free, open guide to the exact method our local builders use — insulated, weatherproof dog shelters made from plastic waste in about four hours."
         gradient="linear(to-br, tropical.500 via tropical.600 to ocean.600)"
+        bgImage={IMAGES.heroWorkshop}
       >
         <HStack spacing={3} color="white" opacity={0.95}>
           <Clock size={18} />

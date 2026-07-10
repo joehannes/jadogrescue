@@ -14,6 +14,7 @@ const About = lazy(() => import('./pages/About').then(module => ({ default: modu
 const Contact = lazy(() => import('./pages/Contact').then(module => ({ default: module.Contact })));
 const Volunteer = lazy(() => import('./pages/Volunteer').then(module => ({ default: module.Volunteer })));
 const Partners = lazy(() => import('./pages/Partners').then(module => ({ default: module.Partners })));
+const Admin = lazy(() => import('./pages/Admin').then(module => ({ default: module.Admin })));
 
 const LoadingSpinner: React.FC = () => (
   <Center h="60vh">
@@ -36,6 +37,7 @@ const App: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </Suspense>
     </Layout>

@@ -25,6 +25,7 @@ import { useSearchParams } from 'react-router-dom';
 import sheltersData from '../data/shelters.json';
 import type { Shelter } from '../types';
 import { PageHero } from '../components/PageHero';
+import { IMAGES } from '../utils/media';
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
@@ -116,6 +117,7 @@ export const Map: React.FC = () => {
         highlight="On The Map"
         subtitle="Every pin is a real, geotagged shelter. Explore where your donations become safe homes across the Dominican Republic."
         gradient="linear(to-br, ocean.500 via ocean.600 to tropical.600)"
+        bgImage={IMAGES.heroBeach}
       />
 
       <Container maxW="container.xl" px={4} py={{ base: 10, md: 16 }}>

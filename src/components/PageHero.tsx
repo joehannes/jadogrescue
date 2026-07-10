@@ -15,12 +15,18 @@ interface PageHeroProps {
   highlight?: string;
   subtitle?: React.ReactNode;
   gradient?: string;
+  /** Background photo URL. A dark version of the gradient overlays it for contrast. */
+  bgImage?: string;
   children?: React.ReactNode;
 }
 
 /**
- * Reusable hero band matching the Home hero: animated gradient, floating
- * blobs, glass badge and a wave divider into the sand background below.
+ * Reusable hero band: a solid photographic/gradient background (always
+ * visible), a color-gradient overlay for text contrast, floating blobs, a
+ * glass badge, animated content and a wave divider into the sand background.
+ *
+ * The background + overlay live on a static Box so they never fade — only the
+ * inner content animates in. This guarantees strong contrast at all times.
  */
 export const PageHero: React.FC<PageHeroProps> = ({
   eyebrow,
@@ -29,10 +35,12 @@ export const PageHero: React.FC<PageHeroProps> = ({
   highlight,
   subtitle,
   gradient = 'linear(to-br, brand.500 via brand.600 to ocean.600)',
+  bgImage,
   children,
 }) => {
   return (
-    <MotionBox
+    <Box
+      as="section"
       w="full"
       bgGradient={gradient}
       color="white"
@@ -40,10 +48,21 @@ export const PageHero: React.FC<PageHeroProps> = ({
       pb={{ base: 28, md: 40 }}
       position="relative"
       overflow="hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.7 }}
     >
+      {/* Photographic background (static, always visible) */}
+      {bgImage && (
+        <Box
+          position="absolute"
+          inset={0}
+          bgImage={`url(${bgImage})`}
+          bgSize="cover"
+          bgPosition="center"
+          opacity={0.35}
+        />
+      )}
+      {/* Dark color overlay for guaranteed text contrast */}
+      <Box position="absolute" inset={0} bgGradient="linear(to-b, blackAlpha.300, blackAlpha.600)" />
+
       {/* Floating decorative blobs */}
       <MotionBox
         position="absolute"
@@ -162,6 +181,6 @@ export const PageHero: React.FC<PageHeroProps> = ({
         bg="sand.100"
         sx={{ clipPath: 'ellipse(150% 100% at 50% 100%)' }}
       />
-    </MotionBox>
+    </Box>
   );
 };

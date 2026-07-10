@@ -9,7 +9,9 @@
     },
     "built": "2024-01-15",
     "builder": "Carlos Rodriguez",
-    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-1.jpg"],
+    "photos": [
+      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&q=80&w=800"
+    ],
     "status": "active",
     "dogs": 3,
     "hasRainwater": true
@@ -24,7 +26,9 @@
     },
     "built": "2024-02-20",
     "builder": "Maria Santos",
-    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-2.jpg"],
+    "photos": [
+      "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=800"
+    ],
     "status": "active",
     "dogs": 2,
     "hasRainwater": true
@@ -33,13 +37,15 @@
     "id": "shelter-003",
     "location": {
       "lat": 19.4517,
-      "lng": -70.6970,
+      "lng": -70.697,
       "address": "Calle Duarte 123",
       "city": "Puerto Plata"
     },
     "built": "2024-03-10",
     "builder": "Juan Perez",
-    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-3.jpg"],
+    "photos": [
+      "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&q=80&w=800"
+    ],
     "status": "active",
     "dogs": 4,
     "hasRainwater": false
@@ -54,7 +60,9 @@
     },
     "built": "2024-04-05",
     "builder": "Ana Martinez",
-    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-4.jpg"],
+    "photos": [
+      "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800"
+    ],
     "status": "construction",
     "dogs": 0,
     "hasRainwater": true
@@ -62,14 +70,16 @@
   {
     "id": "shelter-005",
     "location": {
-      "lat": 18.4500,
+      "lat": 18.45,
       "lng": -70.0167,
       "address": "Zona Colonial",
       "city": "Santo Domingo"
     },
     "built": "2024-05-01",
     "builder": "Luis Hernandez",
-    "photos": ["https://res.cloudinary.com/demo/image/upload/dog-shelter-5.jpg"],
+    "photos": [
+      "https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&q=80&w=800"
+    ],
     "status": "planned",
     "dogs": 0,
     "hasRainwater": true

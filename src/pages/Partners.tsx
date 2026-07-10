@@ -36,6 +36,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
+import { IMAGES } from '../utils/media';
 
 const MotionCard = motion(Card);
 const MotionBox = motion(Box);
@@ -88,6 +89,7 @@ export const Partners: React.FC = () => {
         highlight="Better Community"
         subtitle="Restaurants, hotels and local shops power our work. Share food waste, host a shelter, or collect bottles — and give the street dogs of the DR a fighting chance."
         gradient="linear(to-br, ocean.500 via brand.500 to coral.500)"
+        bgImage={IMAGES.heroBeach}
       />
 
       {/* Partner types */}

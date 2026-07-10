@@ -22,6 +22,9 @@ import { Heart, Wrench, Home as HomeIcon, PawPrint, ArrowRight, Sparkles, Waves,
 import { useNavigate } from 'react-router-dom';
 import sheltersData from '../data/shelters.json';
 import { ShelterCard } from '../components/ShelterCard';
+import { VideoShowcase } from '../components/VideoShowcase';
+import { Gallery } from '../components/Gallery';
+import { IMAGES } from '../utils/media';
 import type { Shelter } from '../types';
 
 const MotionBox = motion(Box);
@@ -81,6 +84,17 @@ export const Home: React.FC = () => {
         transition={{ duration: 0.8 }}
         style={{ y: heroY, opacity: heroOpacity }}
       >
+        {/* Photographic background + dark overlay for contrast */}
+        <Box
+          position="absolute"
+          inset={0}
+          bgImage={`url(${IMAGES.heroDog})`}
+          bgSize="cover"
+          bgPosition="center"
+          opacity={0.3}
+        />
+        <Box position="absolute" inset={0} bgGradient="linear(to-b, blackAlpha.300, blackAlpha.600)" />
+
         {/* Decorative Elements */}
         <MotionBox
           position="absolute"
@@ -395,6 +409,9 @@ export const Home: React.FC = () => {
         </Container>
       </Box>
 
+      {/* Video Showcase */}
+      <VideoShowcase />
+
       {/* Featured Shelters */}
       <Container maxW="container.xl" px={4} py={24}>
         <VStack spacing={12}>
@@ -459,6 +476,9 @@ export const Home: React.FC = () => {
           </motion.div>
         </VStack>
       </Container>
+
+      {/* Photo Gallery */}
+      <Gallery images={IMAGES.gallery} />
     </VStack>
   );
 };

@@ -19,9 +19,12 @@ import {
   Icon,
   Badge,
   Heading,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { waLink, WHATSAPP_URL, PHONE_DISPLAY } from '../utils/media';
 import { 
   PawPrint, 
   MapPin, 
@@ -388,10 +391,26 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 
                 <Box>
                   <Heading size="sm" mb={4} fontFamily="heading">Contact</Heading>
-                  <VStack align="start" spacing={2} fontSize="sm" opacity={0.9}>
-                    <Box>📍 Bavaro, Dominican Republic</Box>
-                    <Box>📧 hello@jadr.org</Box>
-                    <Box>📱 +1 (809) 555-0123</Box>
+                  <VStack align="start" spacing={2} fontSize="sm">
+                    <Link
+                      href="https://maps.google.com/?q=Bavaro+Dominican+Republic"
+                      isExternal
+                      opacity={0.9}
+                      _hover={{ opacity: 1, color: 'white' }}
+                    >
+                      📍 Bavaro, Dominican Republic
+                    </Link>
+                    <Link href="mailto:hello@jadr.org" opacity={0.9} _hover={{ opacity: 1, color: 'white' }}>
+                      📧 hello@jadr.org
+                    </Link>
+                    <Link
+                      href={waLink(PHONE_DISPLAY, 'Hi! I have a question about John & Abigail Dog Rescue.')}
+                      isExternal
+                      opacity={0.9}
+                      _hover={{ opacity: 1, color: 'white' }}
+                    >
+                      💬 {PHONE_DISPLAY}
+                    </Link>
                   </VStack>
                 </Box>
               </Flex>
@@ -407,15 +426,17 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               fontSize="sm"
               opacity={0.8}
               gap={4}
+              textAlign="center"
             >
               <Box>
                 © {new Date().getFullYear()} John & Abigail Dog Rescue. All rights reserved.
               </Box>
-              <HStack spacing={6}>
-                <Link href="#" isExternal>Privacy Policy</Link>
-                <Link href="#" isExternal>Terms of Service</Link>
-                <Link href="#" isExternal>Transparency Report</Link>
-              </HStack>
+              <Wrap spacing={{ base: 4, md: 6 }} justify="center">
+                <WrapItem><Link href="#" isExternal>Privacy Policy</Link></WrapItem>
+                <WrapItem><Link href="#" isExternal>Terms of Service</Link></WrapItem>
+                <WrapItem><Link href="#" isExternal>Transparency Report</Link></WrapItem>
+                <WrapItem><NavLink to="/admin" footer>Admin</NavLink></WrapItem>
+              </Wrap>
             </Flex>
             
             {/* Made with love badge */}

@@ -6,7 +6,7 @@ author: "Abigail"
 tags: ["partnership", "community"]
 verified: true
 excerpt: "How a local community kitchen became our biggest ally in feeding Santo Domingo's street dogs."
-heroImage: "https://res.cloudinary.com/demo/image/upload/comedor-partnership.jpg"
+heroImage: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=1400"
 ---
 
 ## A Win-Win Solution
