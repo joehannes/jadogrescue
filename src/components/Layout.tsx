@@ -49,7 +49,7 @@ interface NavLinkProps {
   onClose?: () => void;
 }
 
-const NavLink: React.FC<NavLinkProps> = ({ to, children, icon, onClose }) => {
+const NavLink: React.FC<NavLinkProps> = ({ to, children, icon: Icon, onClose }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
   
@@ -82,7 +82,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children, icon, onClose }) => {
         },
       }}
     >
-      {icon && <icon size={16} />}
+      {Icon && <Icon size={16} />}
       {children}
     </Link>
   );
