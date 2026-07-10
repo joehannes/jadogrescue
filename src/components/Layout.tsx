@@ -36,7 +36,11 @@ import {
   Wrench,
   Users,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  ThumbsUp,
+  Camera,
+  AtSign,
+  Video
 } from 'lucide-react';
 
 const MotionBox = motion(Box);
@@ -47,20 +51,24 @@ interface NavLinkProps {
   children: React.ReactNode;
   icon?: any;
   onClose?: () => void;
+  footer?: boolean;
 }
 
-const NavLink: React.FC<NavLinkProps> = ({ to, children, icon: Icon, onClose }) => {
+const NavLink: React.FC<NavLinkProps> = ({ to, children, icon: Icon, onClose, footer }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
-  
+
+  const baseColor = footer ? 'whiteAlpha.800' : isActive ? 'brand.500' : 'gray.700';
+  const hoverColor = footer ? 'white' : 'brand.500';
+
   return (
     <Link
       as={RouterLink}
       to={to}
       onClick={onClose}
       fontWeight={isActive ? '700' : '500'}
-      color={isActive ? 'brand.500' : 'gray.700'}
-      _hover={{ color: 'brand.500' }}
+      color={baseColor}
+      _hover={{ color: hoverColor }}
       transition="all 0.3s ease"
       display="flex"
       alignItems="center"
@@ -74,7 +82,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children, icon: Icon, onClose }) 
           left: 0,
           width: isActive ? '100%' : '0%',
           height: '2px',
-          bg: 'brand.500',
+          bg: footer ? 'white' : 'brand.500',
           transition: 'width 0.3s ease',
         },
         '&:hover::after': {
@@ -325,11 +333,17 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 
                 {/* Social Links */}
                 <HStack spacing={3} mt={6}>
-                  {['Facebook', 'Instagram', 'Twitter', 'YouTube'].map((social) => (
+                  {[
+                    { label: 'Facebook', Icon: ThumbsUp },
+                    { label: 'Instagram', Icon: Camera },
+                    { label: 'Twitter', Icon: AtSign },
+                    { label: 'YouTube', Icon: Video },
+                  ].map(({ label, Icon: SocialIcon }) => (
                     <MotionBox
-                      key={social}
+                      key={label}
                       as="a"
                       href="#"
+                      aria-label={label}
                       w={10}
                       h={10}
                       borderRadius="full"
@@ -337,14 +351,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
-                      whileHover={{ 
-                        scale: 1.1, 
-                        bg: 'brand.500',
-                        transition: { duration: 0.2 }
+                      whileHover={{
+                        scale: 1.15,
+                        backgroundColor: '#FF6B35',
+                        transition: { duration: 0.2 },
                       }}
                       cursor="pointer"
                     >
-                      <span style={{ fontSize: '14px' }}>{social[0]}</span>
+                      <SocialIcon size={18} />
                     </MotionBox>
                   ))}
                 </HStack>
@@ -355,20 +369,20 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Box>
                   <Heading size="sm" mb={4} fontFamily="heading">Quick Links</Heading>
                   <VStack align="start" spacing={2}>
-                    <NavLink to="/about">About Us</NavLink>
-                    <NavLink to="/donate">Donate</NavLink>
-                    <NavLink to="/volunteer">Volunteer</NavLink>
-                    <NavLink to="/partners">Partners</NavLink>
+                    <NavLink to="/about" footer>About Us</NavLink>
+                    <NavLink to="/donate" footer>Donate</NavLink>
+                    <NavLink to="/volunteer" footer>Volunteer</NavLink>
+                    <NavLink to="/partners" footer>Partners</NavLink>
                   </VStack>
                 </Box>
-                
+
                 <Box>
                   <Heading size="sm" mb={4} fontFamily="heading">Resources</Heading>
                   <VStack align="start" spacing={2}>
-                    <NavLink to="/learn">DIY Guides</NavLink>
-                    <NavLink to="/blog">Stories</NavLink>
-                    <NavLink to="/map">Shelter Map</NavLink>
-                    <NavLink to="/contact">Get Help</NavLink>
+                    <NavLink to="/learn" footer>DIY Guides</NavLink>
+                    <NavLink to="/blog" footer>Stories</NavLink>
+                    <NavLink to="/map" footer>Shelter Map</NavLink>
+                    <NavLink to="/contact" footer>Get Help</NavLink>
                   </VStack>
                 </Box>
                 
