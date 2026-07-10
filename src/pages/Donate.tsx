@@ -19,7 +19,7 @@ import {
   AlertIcon,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { FiHeart } from 'react-icons/fi';
+import { Heart } from 'lucide-react';
 import { DonationTierCard } from '../components/DonationTierCard';
 import { useDonationStore, donationTiers } from '../hooks/useDonationStore';
 import { useForm } from 'react-hook-form';
@@ -190,7 +190,7 @@ export const Donate: React.FC = () => {
                     colorScheme="brand"
                     size="lg"
                     w="full"
-                    leftIcon={<FiHeart />}
+                    leftIcon={<Heart size={18} />}
                     fontSize="lg"
                   >
                     Donate ${amount}

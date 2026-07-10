@@ -8,10 +8,9 @@ import {
   Button,
   Heading,
   Box,
-  Icon,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { FiCheck, FiHeart } from 'react-icons/fi';
+import { Check, Heart } from 'lucide-react';
 import { DonationTier } from '../types';
 
 const MotionCard = motion(Card);
@@ -63,7 +62,7 @@ export const DonationTierCard: React.FC<DonationTierCardProps> = ({
           <VStack spacing={2} align="start" w="full">
             {tier.impact.map((item, index) => (
               <HStack key={index} spacing={2}>
-                <Icon as={FiCheck} color="tropical.500" />
+                <Check size={18} color="tropical.500" />
                 <Text fontSize="sm" color="gray.600">
                   {item}
                 </Text>
@@ -74,7 +73,7 @@ export const DonationTierCard: React.FC<DonationTierCardProps> = ({
           <Button
             w="full"
             colorScheme="brand"
-            leftIcon={<FiHeart />}
+            leftIcon={<Heart size={18} />}
             variant={isSelected ? 'solid' : 'outline'}
           >
             Select Tier
