@@ -26,6 +26,7 @@ export interface BlogPost {
   content: string; // Markdown
   excerpt?: string;
   heroImage?: string;
+  readingTime?: number; // minutes
 }
 
 // Donation Types

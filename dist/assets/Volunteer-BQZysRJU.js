@@ -1,2 +1,0 @@
-import{j as e,C as r,V as n}from"./index-DG7Ugf2n.js";import{H as a}from"./heading-DkTyJi9O.js";import{T as i}from"./text-B8Dc42Qg.js";const x=()=>e.jsx(r,{maxW:"container.xl",px:4,py:12,children:e.jsxs(n,{spacing:8,children:[e.jsx(a,{size:"2xl",children:"Volunteer"}),e.jsx(i,{children:"Join our team and help make a difference."})]})});export{x as Volunteer};
-//# sourceMappingURL=Volunteer-BQZysRJU.js.map
