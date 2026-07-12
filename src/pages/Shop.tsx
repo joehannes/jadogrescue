@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   Container,
@@ -21,6 +21,8 @@ import {
   Link,
   Spinner,
   Icon,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { Link as RouterLink } from 'react-router-dom';
@@ -28,7 +30,7 @@ import { ShoppingBag, ExternalLink, Store, Heart, Palette, Recycle } from 'lucid
 import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
 import { useSiteSettings } from '../hooks/useSiteSettings';
-import { fetchShopProducts, type ShopFetchResult } from '../utils/printify';
+import { fetchShopProducts, productMatchesCategory, type ShopFetchResult } from '../utils/printify';
 import type { ShopProduct } from '../types';
 import { IMAGES } from '../utils/media';
 import { bones, grid as gridPattern } from '../utils/patterns';
@@ -111,6 +113,7 @@ export const Shop: React.FC = () => {
   const { shop } = useSiteSettings();
   const [result, setResult] = useState<ShopFetchResult | null>(null);
   const [loading, setLoading] = useState(true);
+  const [active, setActive] = useState<string>('all');
 
   useEffect(() => {
     let cancelled = false;
@@ -128,6 +131,24 @@ export const Shop: React.FC = () => {
 
   const products = result?.products ?? [];
   const isMock = result?.source === 'mock';
+
+  const categories = useMemo(() => (shop.categories ?? []).filter((c) => c.enabled), [shop.categories]);
+  // Only surface categories that actually match at least one product, so tabs
+  // for product types you haven't added yet stay hidden until they're relevant.
+  const availableCategories = useMemo(
+    () => categories.filter((c) => products.some((p) => productMatchesCategory(p, c))),
+    [categories, products]
+  );
+
+  useEffect(() => {
+    if (active !== 'all' && !availableCategories.some((c) => c.id === active)) setActive('all');
+  }, [availableCategories, active]);
+
+  const filtered = useMemo(() => {
+    if (active === 'all') return products;
+    const cat = categories.find((c) => c.id === active);
+    return cat ? products.filter((p) => productMatchesCategory(p, cat)) : products;
+  }, [active, products, categories]);
 
   return (
     <Box>
@@ -168,21 +189,59 @@ export const Shop: React.FC = () => {
             </Alert>
           )}
 
-          {shop.storeUrl && (
-            <Flex justify="flex-end" mb={6}>
+          <Flex justify="space-between" align="center" mb={6} gap={4} flexWrap="wrap">
+            {/* Category filter chips (only those with matching products) */}
+            {availableCategories.length > 0 ? (
+              <Wrap spacing={2}>
+                <WrapItem>
+                  <Button
+                    size="sm"
+                    borderRadius="full"
+                    variant={active === 'all' ? 'solid' : 'outline'}
+                    colorScheme="brand"
+                    onClick={() => setActive('all')}
+                  >
+                    All ({products.length})
+                  </Button>
+                </WrapItem>
+                {availableCategories.map((c) => {
+                  const count = products.filter((p) => productMatchesCategory(p, c)).length;
+                  return (
+                    <WrapItem key={c.id}>
+                      <Button
+                        size="sm"
+                        borderRadius="full"
+                        variant={active === c.id ? 'solid' : 'outline'}
+                        colorScheme="brand"
+                        onClick={() => setActive(c.id)}
+                      >
+                        {c.label} ({count})
+                      </Button>
+                    </WrapItem>
+                  );
+                })}
+              </Wrap>
+            ) : (
+              <Box />
+            )}
+            {shop.storeUrl && (
               <Button as={Link} href={shop.storeUrl} isExternal colorScheme="ocean" leftIcon={<Store size={16} />}>
                 Visit full store
               </Button>
-            </Flex>
-          )}
+            )}
+          </Flex>
 
           {loading ? (
             <Flex justify="center" py={24}>
               <Spinner size="xl" color="brand.500" thickness="4px" />
             </Flex>
+          ) : filtered.length === 0 ? (
+            <Text textAlign="center" color="gray.400" py={20}>
+              No products to show yet. Once you publish designs on Printify they’ll appear here automatically.
+            </Text>
           ) : (
             <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} spacing={6}>
-              {products.map((p) => (
+              {filtered.map((p) => (
                 <ProductCard key={p.id} product={p} fallbackStore={shop.storeUrl} />
               ))}
             </SimpleGrid>

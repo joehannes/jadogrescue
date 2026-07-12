@@ -1,0 +1,18 @@
+{
+  "name": "jadr-printify-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Read-only Printify API proxy for the John & Abigail Dog Rescue merch store.",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

@@ -106,6 +106,15 @@ export interface ShopProduct {
   isMock?: boolean;
 }
 
+// A display category for the shop, auto-populated by matching Printify product
+// tags / type / title against `keywords` (case-insensitive substring match).
+export interface ShopCategory {
+  id: string;
+  label: string; // "Mugs", "T-Shirts", "Shoes"
+  keywords: string[]; // e.g. ["mug"] — matched against product tags/type/title
+  enabled: boolean;
+}
+
 // Recurring-support platform (Patreon, Ko-fi, ...)
 export interface SupportPlatform {
   id: string; // 'patreon' | 'kofi' | 'bmac' | 'opencollective' | 'liberapay' | 'paypal'

@@ -65,10 +65,11 @@ import {
   KeyRound,
 } from 'lucide-react';
 import sheltersData from '../data/shelters.json';
-import type { Shelter, CalendarSource } from '../types';
+import type { Shelter, CalendarSource, ShopCategory } from '../types';
 import { paws, topo } from '../utils/patterns';
 import { useSiteSettings } from '../hooks/useSiteSettings';
 import { SUPPORT_PLATFORMS } from '../utils/support';
+import { fetchShops, type PrintifyShop } from '../utils/printify';
 
 const MotionBox = motion(Box);
 
@@ -142,9 +143,42 @@ export const Admin: React.FC = () => {
     removeCalendar,
     shop,
     setShop,
+    addCategory,
+    updateCategory,
+    removeCategory,
     support,
     setSupport,
   } = useSiteSettings();
+
+  // Printify connection-test state (Shop tab).
+  const [shopList, setShopList] = useState<PrintifyShop[]>([]);
+  const [testingShop, setTestingShop] = useState(false);
+
+  const testConnection = async () => {
+    setTestingShop(true);
+    try {
+      const shops = await fetchShops(shop);
+      setShopList(shops);
+      if (shops.length && !shop.shopId) setShop({ shopId: String(shops[0].id) });
+      toast({
+        title: shops.length ? `Connected — ${shops.length} shop(s) found` : 'Proxy reached, but no shops',
+        status: shops.length ? 'success' : 'warning',
+        duration: 3000,
+      });
+    } catch (e) {
+      toast({
+        title: 'Connection failed',
+        description: e instanceof Error ? e.message : 'Could not reach the proxy',
+        status: 'error',
+        duration: 4500,
+      });
+    } finally {
+      setTestingShop(false);
+    }
+  };
+
+  const addNewCategory = () =>
+    addCategory({ id: `cat-${Date.now()}`, label: 'New category', keywords: [], enabled: true } as ShopCategory);
 
   const addNewCalendar = () => {
     const cal: CalendarSource = {
@@ -623,46 +657,75 @@ export const Admin: React.FC = () => {
 
             {/* Shop */}
             <TabPanel px={0}>
-              <Alert status="warning" borderRadius="2xl" mb={6} alignItems="start">
+              <Alert status="info" borderRadius="2xl" mb={6} alignItems="start">
                 <AlertIcon />
                 <AlertDescription fontSize="sm">
-                  Printify’s API needs a secret token and blocks direct browser calls. For a real launch, deploy a
-                  tiny serverless proxy (Netlify/Vercel/Cloudflare) that holds the token and exposes a read-only{' '}
-                  <Code fontSize="xs">/products</Code> route, then put its URL in <b>Proxy URL</b> below. The raw
-                  token field is for local testing only — don’t ship it. With nothing configured, the Shop shows
-                  example products.
+                  Your Printify token stays server-side in a read-only proxy — the browser never sees it. On Cloudflare
+                  Pages the proxy is built in at <Code fontSize="xs">/api/printify</Code> (leave <b>Proxy URL</b> blank to
+                  use it); just add <Code fontSize="xs">PRINTIFY_API_TOKEN</Code> in Cloudflare’s env vars. Design your
+                  products with art on Printify, publish them to a <b>Pop-Up Store</b>, and they appear here
+                  automatically, grouped by the categories below. Full walkthrough in <Code fontSize="xs">MERCH_SETUP.md</Code>.
                 </AlertDescription>
               </Alert>
-              <Card borderRadius="2xl" boxShadow="md">
+
+              <Card borderRadius="2xl" boxShadow="md" mb={6}>
                 <CardBody>
-                  <Heading size="sm" color="ocean.700" mb={4}>Printify Connection</Heading>
+                  <Flex justify="space-between" align="center" mb={4} flexWrap="wrap" gap={3}>
+                    <Heading size="sm" color="ocean.700">Printify Connection</Heading>
+                    <Button
+                      size="sm"
+                      colorScheme="ocean"
+                      variant="outline"
+                      leftIcon={<ExternalLink size={15} />}
+                      isLoading={testingShop}
+                      onClick={testConnection}
+                    >
+                      Test connection
+                    </Button>
+                  </Flex>
                   <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
                     <FormControl>
-                      <FormLabel fontSize="sm">Proxy URL <Badge colorScheme="tropical" ml={1}>recommended</Badge></FormLabel>
+                      <FormLabel fontSize="sm">Proxy URL <Text as="span" color="gray.400" fontSize="xs">(blank = /api/printify)</Text></FormLabel>
                       <Input
                         value={shop.proxyUrl}
                         onChange={(e) => setShop({ proxyUrl: e.target.value })}
-                        placeholder="https://your-fn.netlify.app/api/printify"
+                        placeholder="/api/printify (same-origin default)"
                         size="sm"
                         borderRadius="lg"
                       />
                     </FormControl>
                     <FormControl>
-                      <FormLabel fontSize="sm">Public store URL</FormLabel>
+                      <FormLabel fontSize="sm">Shop</FormLabel>
+                      {shopList.length > 0 ? (
+                        <Select
+                          value={shop.shopId}
+                          onChange={(e) => setShop({ shopId: e.target.value })}
+                          size="sm"
+                          borderRadius="lg"
+                        >
+                          <option value="">Select a shop…</option>
+                          {shopList.map((s) => (
+                            <option key={s.id} value={String(s.id)}>
+                              {s.title} ({s.sales_channel || 'shop'}) — {s.id}
+                            </option>
+                          ))}
+                        </Select>
+                      ) : (
+                        <Input
+                          value={shop.shopId}
+                          onChange={(e) => setShop({ shopId: e.target.value })}
+                          placeholder="Auto-detected, or Test connection to pick"
+                          size="sm"
+                          borderRadius="lg"
+                        />
+                      )}
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel fontSize="sm">Public store URL (Pop-Up Store)</FormLabel>
                       <Input
                         value={shop.storeUrl}
                         onChange={(e) => setShop({ storeUrl: e.target.value })}
                         placeholder="https://your-store.printify.me"
-                        size="sm"
-                        borderRadius="lg"
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel fontSize="sm">Shop ID</FormLabel>
-                      <Input
-                        value={shop.shopId}
-                        onChange={(e) => setShop({ shopId: e.target.value })}
-                        placeholder="1234567"
                         size="sm"
                         borderRadius="lg"
                       />
@@ -682,16 +745,87 @@ export const Admin: React.FC = () => {
                         type="password"
                         value={shop.apiToken}
                         onChange={(e) => setShop({ apiToken: e.target.value })}
-                        placeholder="Printify Personal Access Token"
+                        placeholder="Only needed for direct local testing without the proxy"
                         size="sm"
                         borderRadius="lg"
                       />
                     </FormControl>
                   </SimpleGrid>
                   <Text fontSize="xs" color="gray.400" mt={4}>
-                    Products with an <Code fontSize="xs">external</Code> handle link straight to checkout; otherwise the
-                    “Buy” button falls back to your public store URL.
+                    Products with an <Code fontSize="xs">external</Code> handle link straight to your Pop-Up Store
+                    checkout; otherwise the “Buy” button falls back to the store URL above.
                   </Text>
+                </CardBody>
+              </Card>
+
+              {/* Category manager */}
+              <Card borderRadius="2xl" boxShadow="md">
+                <CardBody>
+                  <Flex justify="space-between" align="center" mb={2} flexWrap="wrap" gap={3}>
+                    <Heading size="sm" color="ocean.700">Product Categories</Heading>
+                    <Button size="sm" colorScheme="brand" leftIcon={<Plus size={16} />} onClick={addNewCategory}>
+                      Add category
+                    </Button>
+                  </Flex>
+                  <Text fontSize="xs" color="gray.500" mb={4}>
+                    Each category shows products whose Printify tags, type or title contain any of its keywords — so new
+                    products you publish (e.g. another mug) appear under the right tab automatically. Start with Mugs,
+                    T-Shirts and Shoes; add more (hoodies, totes, prints…) as you expand.
+                  </Text>
+                  <VStack align="stretch" spacing={3}>
+                    {shop.categories.map((c) => (
+                      <Flex key={c.id} gap={3} p={3} borderRadius="xl" bg="sand.100" align="center" flexWrap="wrap">
+                        <FormControl maxW="180px">
+                          <FormLabel fontSize="xs" mb={1}>Label</FormLabel>
+                          <Input
+                            value={c.label}
+                            onChange={(e) => updateCategory(c.id, { label: e.target.value })}
+                            size="sm"
+                            borderRadius="lg"
+                            bg="white"
+                          />
+                        </FormControl>
+                        <FormControl flex={1} minW="200px">
+                          <FormLabel fontSize="xs" mb={1}>Match keywords (comma-separated)</FormLabel>
+                          <Input
+                            value={c.keywords.join(', ')}
+                            onChange={(e) =>
+                              updateCategory(c.id, {
+                                keywords: e.target.value.split(',').map((k) => k.trim()).filter(Boolean),
+                              })
+                            }
+                            placeholder="mug, ceramic"
+                            size="sm"
+                            borderRadius="lg"
+                            bg="white"
+                          />
+                        </FormControl>
+                        <FormControl display="flex" alignItems="center" gap={2} w="auto" pt={4}>
+                          <FormLabel fontSize="xs" mb={0}>On</FormLabel>
+                          <Switch
+                            isChecked={c.enabled}
+                            onChange={(e) => updateCategory(c.id, { enabled: e.target.checked })}
+                            colorScheme="tropical"
+                            size="sm"
+                          />
+                        </FormControl>
+                        <IconButton
+                          aria-label="Remove category"
+                          icon={<Trash2 size={15} />}
+                          size="xs"
+                          colorScheme="red"
+                          variant="ghost"
+                          mt={4}
+                          onClick={() => removeCategory(c.id)}
+                        />
+                      </Flex>
+                    ))}
+                    {shop.categories.length === 0 && (
+                      <Text textAlign="center" color="gray.400" py={6}>
+                        No categories — products will all show under “All”.
+                      </Text>
+                    )}
+                  </VStack>
                 </CardBody>
               </Card>
             </TabPanel>

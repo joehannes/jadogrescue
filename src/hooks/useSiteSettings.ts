@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { CalendarSource, ShopProduct, SupportPlatform } from '../types';
+import type { CalendarSource, ShopProduct, ShopCategory, SupportPlatform } from '../types';
 import { DEFAULT_SUPPORT_PLATFORMS } from '../utils/support';
 
 /**
@@ -15,16 +15,23 @@ import { DEFAULT_SUPPORT_PLATFORMS } from '../utils/support';
  */
 
 export interface ShopConfig {
-  /** Base URL of a serverless proxy that talks to Printify with your secret token. */
+  /**
+   * Base URL of the read-only proxy that talks to Printify with your secret
+   * token. Leave blank to use the same-origin Cloudflare Pages Function at
+   * `/api/printify` (recommended). Or point at a standalone host, e.g.
+   * `https://your-proxy.onrender.com/api/printify`.
+   */
   proxyUrl: string;
   /** Printify Personal Access Token. Client-side only for local previews — do not ship. */
   apiToken: string;
-  /** Printify shop id (numeric). */
+  /** Printify shop id (numeric). Auto-detected via the proxy if left blank. */
   shopId: string;
   /** Public storefront URL (e.g. a Printify Pop-Up store) used for the "Visit store" button. */
   storeUrl: string;
   /** Manually-curated products, as an alternative to any API. */
   manualProducts: ShopProduct[];
+  /** Display categories (Mugs, T-Shirts, Shoes...) auto-filled from product tags. */
+  categories: ShopCategory[];
   currency: string;
 }
 
@@ -42,6 +49,9 @@ interface SiteSettingsState {
   setShop: (patch: Partial<ShopConfig>) => void;
   addManualProduct: (p: ShopProduct) => void;
   removeManualProduct: (id: string) => void;
+  addCategory: (cat: ShopCategory) => void;
+  updateCategory: (id: string, patch: Partial<ShopCategory>) => void;
+  removeCategory: (id: string) => void;
 
   // --- Recurring support ---
   support: SupportPlatform[];
@@ -58,12 +68,19 @@ const DEFAULT_CALENDARS: CalendarSource[] = [
   { id: 'volunteer', name: 'Volunteer & Build Days', calendarId: '', color: '#1A936F', isPublic: false, enabled: true },
 ];
 
+const DEFAULT_CATEGORIES: ShopCategory[] = [
+  { id: 'mugs', label: 'Mugs', keywords: ['mug'], enabled: true },
+  { id: 'shirts', label: 'T-Shirts', keywords: ['shirt', 'tee', 't-shirt'], enabled: true },
+  { id: 'shoes', label: 'Shoes', keywords: ['shoe', 'sneaker', 'tennis', 'trainer'], enabled: true },
+];
+
 const DEFAULT_SHOP: ShopConfig = {
   proxyUrl: '',
   apiToken: '',
   shopId: '',
   storeUrl: '',
   manualProducts: [],
+  categories: DEFAULT_CATEGORIES,
   currency: 'USD',
 };
 
@@ -85,6 +102,19 @@ export const useSiteSettings = create<SiteSettingsState>()(
       removeManualProduct: (id) =>
         set((s) => ({
           shop: { ...s.shop, manualProducts: s.shop.manualProducts.filter((p) => p.id !== id) },
+        })),
+      addCategory: (cat) =>
+        set((s) => ({ shop: { ...s.shop, categories: [...s.shop.categories, cat] } })),
+      updateCategory: (id, patch) =>
+        set((s) => ({
+          shop: {
+            ...s.shop,
+            categories: s.shop.categories.map((c) => (c.id === id ? { ...c, ...patch } : c)),
+          },
+        })),
+      removeCategory: (id) =>
+        set((s) => ({
+          shop: { ...s.shop, categories: s.shop.categories.filter((c) => c.id !== id) },
         })),
 
       support: DEFAULT_SUPPORT_PLATFORMS,
