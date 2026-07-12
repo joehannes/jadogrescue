@@ -45,7 +45,9 @@ import {
   ThumbsUp,
   Camera,
   AtSign,
-  Video
+  Video,
+  Calendar,
+  ShoppingBag
 } from 'lucide-react';
 
 const MotionBox = motion(Box);
@@ -127,6 +129,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navLinks = [
     { to: '/', label: 'Home', icon: Home },
     { to: '/donate', label: 'Donate', icon: Heart },
+    { to: '/shop', label: 'Shop', icon: ShoppingBag },
+    { to: '/events', label: 'Events', icon: Calendar },
     { to: '/map', label: 'Map', icon: MapPin },
     { to: '/blog', label: 'Blog', icon: BookOpen },
     { to: '/learn', label: 'Learn', icon: Wrench },
@@ -372,6 +376,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <VStack align="start" spacing={2}>
                     <NavLink to="/vision-mission" footer>Vision &amp; Mission</NavLink>
                     <NavLink to="/donate" footer>Donate</NavLink>
+                    <NavLink to="/shop" footer>Shop</NavLink>
                     <NavLink to="/volunteer" footer>Volunteer</NavLink>
                     <NavLink to="/partners" footer>Partners</NavLink>
                   </VStack>
@@ -382,6 +387,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <VStack align="start" spacing={2}>
                     <NavLink to="/learn" footer>DIY Guides</NavLink>
                     <NavLink to="/blog" footer>Stories</NavLink>
+                    <NavLink to="/events" footer>Events</NavLink>
                     <NavLink to="/map" footer>Shelter Map</NavLink>
                     <NavLink to="/contact" footer>Get Help</NavLink>
                   </VStack>

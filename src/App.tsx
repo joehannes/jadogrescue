@@ -15,6 +15,8 @@ const VisionMission = lazy(() => import('./pages/VisionMission').then(module => 
 const Contact = lazy(() => import('./pages/Contact').then(module => ({ default: module.Contact })));
 const Volunteer = lazy(() => import('./pages/Volunteer').then(module => ({ default: module.Volunteer })));
 const Partners = lazy(() => import('./pages/Partners').then(module => ({ default: module.Partners })));
+const Events = lazy(() => import('./pages/Events').then(module => ({ default: module.Events })));
+const Shop = lazy(() => import('./pages/Shop').then(module => ({ default: module.Shop })));
 const Admin = lazy(() => import('./pages/Admin').then(module => ({ default: module.Admin })));
 const Legal = lazy(() => import('./pages/Legal').then(module => ({ default: module.Legal })));
 
@@ -41,6 +43,8 @@ const App: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/privacy" element={<Legal slug="privacy" />} />
           <Route path="/terms" element={<Legal slug="terms" />} />

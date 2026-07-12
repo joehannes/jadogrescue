@@ -36,6 +36,12 @@ import {
   useToast,
   InputGroup,
   InputLeftElement,
+  Divider,
+  Link,
+  Alert,
+  AlertIcon,
+  AlertDescription,
+  Code,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import {
@@ -52,10 +58,17 @@ import {
   Search,
   TrendingUp,
   ShieldCheck,
+  CalendarDays,
+  ShoppingBag,
+  Repeat,
+  ExternalLink,
+  KeyRound,
 } from 'lucide-react';
 import sheltersData from '../data/shelters.json';
-import type { Shelter } from '../types';
+import type { Shelter, CalendarSource } from '../types';
 import { paws, topo } from '../utils/patterns';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+import { SUPPORT_PLATFORMS } from '../utils/support';
 
 const MotionBox = motion(Box);
 
@@ -118,6 +131,32 @@ export const Admin: React.FC = () => {
   const [nextPw, setNextPw] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
   const [isDefaultPw, setIsDefaultPw] = useState(() => getAdminPassword() === DEFAULT_PASSWORD);
+
+  // Site settings (calendars / shop / recurring support), persisted to localStorage.
+  const {
+    googleApiKey,
+    calendars,
+    setGoogleApiKey,
+    addCalendar,
+    updateCalendar,
+    removeCalendar,
+    shop,
+    setShop,
+    support,
+    setSupport,
+  } = useSiteSettings();
+
+  const addNewCalendar = () => {
+    const cal: CalendarSource = {
+      id: `cal-${Date.now()}`,
+      name: 'New calendar',
+      calendarId: '',
+      color: '#C44527',
+      isPublic: false,
+      enabled: true,
+    };
+    addCalendar(cal);
+  };
 
   const login = () => {
     if (pw === getAdminPassword()) {
@@ -313,6 +352,9 @@ export const Admin: React.FC = () => {
             <Tab><HStack spacing={2}><HomeIcon size={16} /><Text>Shelters</Text></HStack></Tab>
             <Tab><HStack spacing={2}><DollarSign size={16} /><Text>Donations</Text></HStack></Tab>
             <Tab><HStack spacing={2}><Inbox size={16} /><Text>Inquiries</Text></HStack></Tab>
+            <Tab><HStack spacing={2}><CalendarDays size={16} /><Text>Calendars</Text></HStack></Tab>
+            <Tab><HStack spacing={2}><ShoppingBag size={16} /><Text>Shop</Text></HStack></Tab>
+            <Tab><HStack spacing={2}><Repeat size={16} /><Text>Recurring</Text></HStack></Tab>
             <Tab><HStack spacing={2}><ShieldCheck size={16} /><Text>Settings</Text></HStack></Tab>
           </TabList>
 
@@ -454,6 +496,259 @@ export const Admin: React.FC = () => {
                     </CardBody>
                   </Card>
                 ))}
+              </SimpleGrid>
+            </TabPanel>
+
+            {/* Calendars */}
+            <TabPanel px={0}>
+              <Alert status="info" borderRadius="2xl" mb={6} alignItems="start">
+                <AlertIcon />
+                <AlertDescription fontSize="sm">
+                  Connect Google Calendar without any coding: in Google Calendar, open a calendar’s{' '}
+                  <b>Settings → Access permissions</b> and tick <b>“Make available to public”</b>, then copy its{' '}
+                  <b>Calendar ID</b> from <b>Settings → Integrate calendar</b>. Create a{' '}
+                  <Link href="https://console.cloud.google.com/apis/credentials" isExternal color="brand.600" fontWeight="600">
+                    Google API key <ExternalLink size={11} style={{ display: 'inline' }} />
+                  </Link>{' '}
+                  with the Calendar API enabled and paste both below. Anything you add to that Gmail calendar then
+                  syncs to the public Events page automatically. Add several calendars for different event types.
+                </AlertDescription>
+              </Alert>
+
+              <Card borderRadius="2xl" boxShadow="md" mb={6}>
+                <CardBody>
+                  <HStack mb={3} spacing={2}>
+                    <KeyRound size={18} color="#004E89" />
+                    <Heading size="sm" color="ocean.700">Google API Key</Heading>
+                  </HStack>
+                  <Input
+                    type="password"
+                    value={googleApiKey}
+                    onChange={(e) => setGoogleApiKey(e.target.value)}
+                    placeholder="AIza… (Calendar API enabled, restricted to your domain)"
+                    size="sm"
+                    borderRadius="lg"
+                    maxW="lg"
+                  />
+                  <Text fontSize="xs" color="gray.400" mt={2}>
+                    Stored in your browser only. Restrict the key to your site’s domain in Google Cloud Console.
+                  </Text>
+                </CardBody>
+              </Card>
+
+              <Card borderRadius="2xl" boxShadow="md">
+                <CardBody>
+                  <Flex justify="space-between" align="center" mb={4} flexWrap="wrap" gap={3}>
+                    <Heading size="sm" color="ocean.700">Calendars ({calendars.length})</Heading>
+                    <Button size="sm" colorScheme="brand" leftIcon={<Plus size={16} />} onClick={addNewCalendar}>
+                      Add calendar
+                    </Button>
+                  </Flex>
+                  <VStack align="stretch" spacing={4}>
+                    {calendars.map((c) => (
+                      <Box key={c.id} p={4} borderRadius="xl" bg="sand.100" borderWidth="1px" borderColor="blackAlpha.100">
+                        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={3} mb={3}>
+                          <FormControl>
+                            <FormLabel fontSize="xs">Display name</FormLabel>
+                            <Input
+                              value={c.name}
+                              onChange={(e) => updateCalendar(c.id, { name: e.target.value })}
+                              size="sm"
+                              borderRadius="lg"
+                              bg="white"
+                            />
+                          </FormControl>
+                          <FormControl>
+                            <FormLabel fontSize="xs">Google Calendar ID</FormLabel>
+                            <Input
+                              value={c.calendarId}
+                              onChange={(e) => updateCalendar(c.id, { calendarId: e.target.value })}
+                              placeholder="abc123@group.calendar.google.com"
+                              size="sm"
+                              borderRadius="lg"
+                              bg="white"
+                            />
+                          </FormControl>
+                        </SimpleGrid>
+                        <Flex align="center" gap={5} flexWrap="wrap">
+                          <HStack spacing={2}>
+                            <Text fontSize="xs" fontWeight="600" color="gray.600">Color</Text>
+                            <Input
+                              type="color"
+                              value={c.color}
+                              onChange={(e) => updateCalendar(c.id, { color: e.target.value })}
+                              w="44px"
+                              h="30px"
+                              p={1}
+                              borderRadius="md"
+                            />
+                          </HStack>
+                          <FormControl display="flex" alignItems="center" gap={2} w="auto">
+                            <FormLabel fontSize="xs" mb={0}>Public (subscribable)</FormLabel>
+                            <Switch
+                              isChecked={c.isPublic}
+                              onChange={(e) => updateCalendar(c.id, { isPublic: e.target.checked })}
+                              colorScheme="brand"
+                              size="sm"
+                            />
+                          </FormControl>
+                          <FormControl display="flex" alignItems="center" gap={2} w="auto">
+                            <FormLabel fontSize="xs" mb={0}>Shown by default</FormLabel>
+                            <Switch
+                              isChecked={c.enabled}
+                              onChange={(e) => updateCalendar(c.id, { enabled: e.target.checked })}
+                              colorScheme="tropical"
+                              size="sm"
+                            />
+                          </FormControl>
+                          <IconButton
+                            aria-label="Remove calendar"
+                            icon={<Trash2 size={15} />}
+                            size="xs"
+                            colorScheme="red"
+                            variant="ghost"
+                            ml="auto"
+                            onClick={() => removeCalendar(c.id)}
+                          />
+                        </Flex>
+                      </Box>
+                    ))}
+                    {calendars.length === 0 && (
+                      <Text textAlign="center" color="gray.400" py={6}>No calendars yet — add one to go live.</Text>
+                    )}
+                  </VStack>
+                </CardBody>
+              </Card>
+            </TabPanel>
+
+            {/* Shop */}
+            <TabPanel px={0}>
+              <Alert status="warning" borderRadius="2xl" mb={6} alignItems="start">
+                <AlertIcon />
+                <AlertDescription fontSize="sm">
+                  Printify’s API needs a secret token and blocks direct browser calls. For a real launch, deploy a
+                  tiny serverless proxy (Netlify/Vercel/Cloudflare) that holds the token and exposes a read-only{' '}
+                  <Code fontSize="xs">/products</Code> route, then put its URL in <b>Proxy URL</b> below. The raw
+                  token field is for local testing only — don’t ship it. With nothing configured, the Shop shows
+                  example products.
+                </AlertDescription>
+              </Alert>
+              <Card borderRadius="2xl" boxShadow="md">
+                <CardBody>
+                  <Heading size="sm" color="ocean.700" mb={4}>Printify Connection</Heading>
+                  <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                    <FormControl>
+                      <FormLabel fontSize="sm">Proxy URL <Badge colorScheme="tropical" ml={1}>recommended</Badge></FormLabel>
+                      <Input
+                        value={shop.proxyUrl}
+                        onChange={(e) => setShop({ proxyUrl: e.target.value })}
+                        placeholder="https://your-fn.netlify.app/api/printify"
+                        size="sm"
+                        borderRadius="lg"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel fontSize="sm">Public store URL</FormLabel>
+                      <Input
+                        value={shop.storeUrl}
+                        onChange={(e) => setShop({ storeUrl: e.target.value })}
+                        placeholder="https://your-store.printify.me"
+                        size="sm"
+                        borderRadius="lg"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel fontSize="sm">Shop ID</FormLabel>
+                      <Input
+                        value={shop.shopId}
+                        onChange={(e) => setShop({ shopId: e.target.value })}
+                        placeholder="1234567"
+                        size="sm"
+                        borderRadius="lg"
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel fontSize="sm">Currency</FormLabel>
+                      <Select value={shop.currency} onChange={(e) => setShop({ currency: e.target.value })} size="sm" borderRadius="lg">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="CAD">CAD</option>
+                      </Select>
+                    </FormControl>
+                    <FormControl gridColumn={{ md: 'span 2' }}>
+                      <FormLabel fontSize="sm">API token <Text as="span" color="coral.500" fontSize="xs">(local testing only — do not ship)</Text></FormLabel>
+                      <Input
+                        type="password"
+                        value={shop.apiToken}
+                        onChange={(e) => setShop({ apiToken: e.target.value })}
+                        placeholder="Printify Personal Access Token"
+                        size="sm"
+                        borderRadius="lg"
+                      />
+                    </FormControl>
+                  </SimpleGrid>
+                  <Text fontSize="xs" color="gray.400" mt={4}>
+                    Products with an <Code fontSize="xs">external</Code> handle link straight to checkout; otherwise the
+                    “Buy” button falls back to your public store URL.
+                  </Text>
+                </CardBody>
+              </Card>
+            </TabPanel>
+
+            {/* Recurring support */}
+            <TabPanel px={0}>
+              <Alert status="info" borderRadius="2xl" mb={6} alignItems="start">
+                <AlertIcon />
+                <AlertDescription fontSize="sm">
+                  Enable any recurring-giving platforms you use and paste your page URL. Enabled ones appear in a
+                  “Become a Monthly Supporter” section on the Donate page. These are secure link-outs — donor payment
+                  details stay on the platform, never on this site.
+                </AlertDescription>
+              </Alert>
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
+                {SUPPORT_PLATFORMS.map((meta) => {
+                  const cur = support.find((s) => s.id === meta.id);
+                  const on = cur?.enabled ?? false;
+                  return (
+                    <Card key={meta.id} borderRadius="2xl" boxShadow="md" borderTopWidth="4px" borderTopColor={meta.color}>
+                      <CardBody>
+                        <Flex justify="space-between" align="start" mb={2}>
+                          <Box>
+                            <Heading size="sm" color="ocean.700">{meta.name}</Heading>
+                            <Text fontSize="xs" color="gray.500">{meta.tagline}</Text>
+                          </Box>
+                          <Switch
+                            isChecked={on}
+                            onChange={(e) => setSupport(meta.id, { enabled: e.target.checked })}
+                            colorScheme="brand"
+                          />
+                        </Flex>
+                        <FormControl mb={2}>
+                          <FormLabel fontSize="xs" mb={1}>Page URL</FormLabel>
+                          <Input
+                            value={cur?.url ?? ''}
+                            onChange={(e) => setSupport(meta.id, { url: e.target.value })}
+                            placeholder={meta.urlPlaceholder}
+                            size="sm"
+                            borderRadius="lg"
+                          />
+                        </FormControl>
+                        <FormControl>
+                          <FormLabel fontSize="xs" mb={1}>Display handle (optional)</FormLabel>
+                          <Input
+                            value={cur?.handle ?? ''}
+                            onChange={(e) => setSupport(meta.id, { handle: e.target.value })}
+                            placeholder="@yourrescue"
+                            size="sm"
+                            borderRadius="lg"
+                          />
+                        </FormControl>
+                        <Text fontSize="xs" color="gray.400" mt={3}>{meta.note}</Text>
+                      </CardBody>
+                    </Card>
+                  );
+                })}
               </SimpleGrid>
             </TabPanel>
 

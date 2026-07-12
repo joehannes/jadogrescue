@@ -26,6 +26,7 @@ import { Heart, Recycle, Users, Truck, Eye, MapPin, Camera, ShieldCheck } from '
 import { DonationTierCard } from '../components/DonationTierCard';
 import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
+import { SupportPlatforms } from '../components/SupportPlatforms';
 import { useDonationStore, donationTiers } from '../hooks/useDonationStore';
 import { IMAGES } from '../utils/media';
 import { paws, bottles, waves, dots } from '../utils/patterns';
@@ -246,6 +247,9 @@ export const Donate: React.FC = () => {
           </CardBody>
         </Card>
       </Container>
+
+      {/* Recurring giving — Patreon, Ko-fi, etc. (renders only when configured) */}
+      <SupportPlatforms />
 
       {/* Where your $10 goes — transparency band */}
       <Box w="full" bgGradient="linear(to-br, ocean.600, ocean.800)" color="white" py={{ base: 16, md: 22 }} position="relative" overflow="hidden">
